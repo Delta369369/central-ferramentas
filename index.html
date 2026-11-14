@@ -1,8 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b0920"><meta name="description" content="Central de Ferramentas by Delta VICTOR"><title>Central de Ferramentas | by Delta VICTOR</title><link rel="stylesheet" href="./assets/css/central.css"></head>
-<body><div class="layout">
-<aside class="sidebar" id="sidebar"><a class="identity" href="./"><span class="crest" aria-hidden="true">✦</span><span>Central de<br>Ferramentas</span></a><nav aria-label="Menu principal"><button class="nav-link active" data-view="todos"><span>⌂</span> Início</button><button class="nav-link" data-view="todos"><span>▦</span> Ferramentas</button><button class="nav-link" data-view="favoritos"><span>☆</span> Favoritos</button><button class="nav-link" data-view="recentes"><span>◷</span> Recentes</button></nav><div class="signature"><span>by Delta</span><strong>VICTOR</strong></div></aside>
-<div class="main-column"><header class="header"><div class="header-brand"><div class="shield" aria-hidden="true">♢</div><div><h1>Central de Ferramentas</h1><p>Acesse todas as suas ferramentas de trabalho em um só lugar.</p></div></div><button class="mobile-menu" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button></header>
-<main id="principal"><div class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Buscar ferramenta..." aria-label="Buscar ferramenta"></div><div class="filters" id="filters" aria-label="Filtrar por categoria"><button class="chip active" data-category="todas">Todas</button><button class="chip" data-category="Policial">Policial</button><button class="chip" data-category="Perícia Digital">Perícia Digital</button><button class="chip" data-category="OSINT">OSINT</button><button class="chip" data-category="Documentos">Documentos</button><button class="chip" data-category="Mídia">Mídia</button><button class="chip" data-category="Utilitários">Utilitários</button></div><div class="section-heading"><h2 id="sectionTitle">Suas ferramentas</h2><span id="countLabel"></span></div><section id="toolsGrid" class="grid" aria-live="polite"></section><div id="empty" class="empty" hidden>Nenhuma ferramenta encontrada para este filtro.</div></main>
-<footer>Central de Ferramentas <span>•</span> by Delta VICTOR <span>•</span> A execução e o tratamento de arquivos dependem de cada ferramenta.</footer></div></div>
-<script src="./assets/js/central.js" defer></script></body></html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09061a">
+<meta name="description" content="Central de Ferramentas by Delta VICTOR — acesso centralizado às ferramentas de trabalho.">
+<title>Central de Ferramentas | by Delta VICTOR</title>
+<link rel="stylesheet" href="./assets/css/central.css">
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <a class="brand" href="./" aria-label="Central de Ferramentas, início">
+      <div class="seal" aria-hidden="true"><svg viewBox="0 0 100 110" fill="none"><path d="M50 3 88 17v35c0 27-19 43-38 54C31 95 12 79 12 52V17L50 3Z" stroke="currentColor" stroke-width="4"/><path d="m50 24 8 17 19 2-14 13 4 19-17-9-17 9 4-19-14-13 19-2 8-17Z" fill="currentColor" opacity=".85"/></svg></div>
+      <span>Central de<br>Ferramentas</span>
+    </a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <button class="nav-item active" data-view="inicio"><span class="nav-icon" aria-hidden="true">⌂</span>Início</button>
+      <button class="nav-item" data-view="ferramentas"><span class="nav-icon" aria-hidden="true">▦</span>Ferramentas</button>
+      <button class="nav-item" data-view="favoritos"><span class="nav-icon" aria-hidden="true">☆</span>Favoritos</button>
+      <button class="nav-item" data-view="recentes"><span class="nav-icon" aria-hidden="true">◷</span>Recentes</button>
+    </nav>
+    <div class="sidebar-signature"><span>by Delta</span><strong>VICTOR</strong></div>
+  </div>
+</aside>
+<div class="main-side">
+<header class="topbar">
+ <div class="heading-symbol" aria-hidden="true"><svg viewBox="0 0 64 72" fill="none"><path d="M32 3 58 12v24c0 19-13 29-26 33C19 65 6 55 6 36V12L32 3Z" stroke="currentColor" stroke-width="3.5"/><path d="m19 35 9 9 18-19" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+ <div class="heading-copy"><h1>Central de Ferramentas</h1><p>Acesse todas as suas ferramentas de trabalho em um só lugar.</p></div>
+ <div class="top-actions"><button id="noticeButton" class="round-icon violet" title="Informações sobre a Central" aria-label="Informações sobre a Central">♟<span class="notice-dot"></span></button><button id="settingsButton" class="round-icon cyan" title="Configurações de visualização" aria-label="Configurações de visualização">⚙</button><button id="menuButton" class="menu-button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menu">☰</button></div>
+</header>
+<main id="main">
+ <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5.2 5.2"/></svg><input type="search" id="search" aria-label="Buscar ferramenta" placeholder="Buscar ferramenta" autocomplete="off"></div>
+ <div class="filter-strip" id="filterStrip" aria-label="Categorias">
+  <button class="filter active" data-filter="todas">Todas</button><button class="filter" data-filter="Policial">Policial</button><button class="filter" data-filter="Perícia Digital">Perícia Digital</button><button class="filter" data-filter="Documentos">Documentos</button><button class="filter" data-filter="Utilitários">Utilitários</button>
+ </div>
+ <section class="dashboard" id="dashboard" aria-label="Ferramentas">
+   <article class="hash-panel neon-panel" id="hashPreview">
+     <div class="hash-mark" aria-hidden="true"><svg viewBox="0 0 60 72" fill="none"><path d="M30 3 54 12v22c0 17-10 29-24 35C16 63 6 51 6 34V12L30 3Z" stroke="currentColor" stroke-width="3"/><path d="M20 30c2-5 6-9 11-9 6 0 10 4 11 10M17 38c0-10 5-17 14-17M22 48c-1-7 0-18 9-18 4 0 6 3 6 7M27 56c2-4 4-10 3-18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+     <h2>GERADOR DE HASH</h2><p class="hash-subtitle">COLETA, ORGANIZAÇÃO E INTEGRIDADE<br>DE PROVAS DIGITAIS</p>
+     <p class="hash-description">Organize arquivos e registre códigos de verificação para apoiar a conferência da integridade das evidências digitais.</p>
+     <div class="hash-buttons" aria-label="Funções previstas">
+       <div class="hash-feature blue"><span class="feature-icon">▣</span><span>Coletar <b>FOTOS</b></span></div>
+       <div class="hash-feature purple"><span class="feature-icon">▸</span><span>Coletar <b>VÍDEOS</b></span></div>
+       <div class="hash-feature orange"><span class="feature-icon">♩</span><span>Coletar <b>ÁUDIOS</b></span></div>
+       <div class="hash-feature lime"><span class="feature-icon">▱</span><span>Coletar <b>DIVERSOS</b></span></div>
+     </div>
+     <div class="hash-algos"># &nbsp; MD5, SHA-256 e SHA-512</div>
+     <div class="hash-detail"><span>▱</span> Pacote de arquivos ZIP</div><div class="hash-detail"><span>♢</span> Relatório de integridade</div><div class="hash-detail"><span>▤</span> Verificação posterior dos hashes</div>
+     <p class="coming-small"><span class="status-dot"></span> Visual de referência — ferramenta ainda não incorporada</p>
+   </article>
+   <div class="right-tools" id="rightTools">
+     <article class="feature-card neon-panel cyan-card" id="organizerCard">
+       <div class="feature-title"><span class="card-icon" aria-hidden="true">▤</span><div><h2>ORGANIZADOR DE BO</h2><p>Facilita a leitura e a organização dos boletins de ocorrência e permite copiar textos com mais facilidade.</p></div></div>
+       <div class="card-footer"><button type="button" class="mini-fav" data-fav="organizador-bo" aria-pressed="false" aria-label="Adicionar Organizador de BO aos favoritos">☆ Favoritar</button><a class="action-button" id="organizerLink" href="./ferramentas/organizador-bo/">INICIAR <span aria-hidden="true">↗</span></a></div>
+     </article>
+     <article class="feature-card neon-panel purple-card" id="passwordCard">
+       <div class="feature-title"><span class="card-icon" aria-hidden="true">⚿</span><div><h2>GERADOR DE SENHA FORTE</h2><p>Gere senhas aleatórias e mais resistentes para proteger seus acessos.</p></div></div>
+       <div class="card-footer"><span class="coming-pill">Em desenvolvimento</span><button class="action-button unavailable" disabled>EM BREVE</button></div>
+     </article>
+     <article class="feature-card neon-panel orange-card" id="futureCard">
+       <div class="feature-title"><span class="card-icon" aria-hidden="true">♙</span><div><h2>PRÓXIMAS FERRAMENTAS</h2><p>Novas aplicações serão incorporadas aqui, uma por vez, mantendo cada ferramenta independente.</p></div></div>
+       <div class="card-footer"><span class="coming-pill golden">Aguardando inclusão</span></div>
+     </article>
+   </div>
+ </section>
+ <section id="catalogSection" class="catalog-section" hidden><h2 id="catalogTitle">Ferramentas</h2><div class="catalog-grid" id="catalogGrid"></div><p class="empty" id="emptyState" hidden>Nenhuma ferramenta encontrada.</p></section>
+</main>
+<footer class="footer">by Delta VICTOR <span>•</span> Central de Ferramentas <span>•</span> Aplicativos independentes e processamento conforme cada ferramenta</footer>
+</div></div>
+<dialog id="infoDialog" class="modal"><div class="modal-head"><h2>Sobre esta Central</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><p>A Central reúne acessos a aplicativos independentes. O Organizador de BO já está disponível. Os demais cartões exibidos nesta etapa são prévias visuais e não processam arquivos.</p><p>As ferramentas serão incluídas gradualmente sem alterar as aplicações já testadas.</p><button class="modal-ok" data-close>Entendi</button></dialog>
+<dialog id="settingsDialog" class="modal"><div class="modal-head"><h2>Configurações de visualização</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><label class="toggle-row"><input type="checkbox" id="reduceGlow"> Reduzir intensidade dos efeitos neon</label><label class="toggle-row"><input type="checkbox" id="compactCards"> Exibir cartões mais compactos</label><p class="settings-note">Essas preferências são armazenadas apenas neste navegador.</p><button class="modal-ok" data-close>Concluir</button></dialog>
+<script src="./assets/js/central.js" defer></script>
+</body></html>
