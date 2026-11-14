@@ -21,17 +21,19 @@
       <button class="nav-item" data-view="favoritos"><span class="nav-icon" aria-hidden="true">☆</span>Favoritos</button>
       <button class="nav-item" data-view="recentes"><span class="nav-icon" aria-hidden="true">◷</span>Recentes</button>
     </nav>
+    <div class="sidebar-signature">by Delta <strong>VICTOR</strong></div>
   </div>
 </aside>
 <div class="main-side">
 <header class="topbar">
  <div class="heading-copy">
-   <h1>Ferramentas para<br> o trabalho policial</h1>
-   <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5.2 5.2"/></svg><input type="search" id="search" aria-label="Buscar uma ferramenta" placeholder="Buscar uma ferramenta" autocomplete="off"></div>
+   <h1>Central de Ferramentas Policiais</h1>
+   <p>Acesse suas ferramentas de trabalho em um só lugar.</p>
  </div>
  <div class="top-actions"><button id="noticeButton" class="round-icon" title="Informações sobre a Central" aria-label="Informações sobre a Central">ⓘ</button><button id="settingsButton" class="round-icon" title="Configurações de visualização" aria-label="Configurações de visualização">⚙</button><button id="menuButton" class="menu-button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menu">☰</button></div>
 </header>
 <main id="main">
+ <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5.2 5.2"/></svg><input type="search" id="search" aria-label="Buscar uma ferramenta" placeholder="Buscar uma ferramenta" autocomplete="off"></div>
  <div class="filter-strip" id="filterStrip" aria-label="Categorias">
   <button class="filter active" data-filter="todas">Todas</button><button class="filter" data-filter="Policial">Policial</button><button class="filter" data-filter="Perícia Digital">Perícia Digital</button><button class="filter" data-filter="Documentos">Documentos</button><button class="filter" data-filter="Utilitários">Utilitários</button>
  </div>
@@ -43,6 +45,15 @@
      </article>
    <article class="feature-card hash-panel" id="hashPreview">
      <div class="feature-title"><span class="card-icon" aria-hidden="true">#</span><div><h2>Gerador de Hash</h2><p>Calcule códigos de verificação para conferir a integridade de arquivos.</p></div></div>
+     <ul class="hash-formats" aria-label="Tipos de arquivo previstos">
+       <li>Fotos</li><li>Vídeos</li><li>Áudios</li><li>Outros arquivos</li>
+     </ul>
+     <p class="hash-algorithms">MD5, SHA-256 e SHA-512</p>
+     <ul class="hash-features">
+       <li>Pacote de arquivos ZIP</li>
+       <li>Relatório de integridade</li>
+       <li>Verificação posterior dos hashes</li>
+     </ul>
      <div class="card-footer"><span class="coming-pill">Prévia</span></div>
    </article>
      <article class="feature-card" id="passwordCard">
@@ -51,7 +62,7 @@
      </article>
      <article class="feature-card" id="futureCard">
        <div class="feature-title"><span class="card-icon" aria-hidden="true">+</span><div><h2>Próximas Ferramentas</h2><p>Novas aplicações serão incorporadas aqui, uma por vez, mantendo cada ferramenta independente.</p></div></div>
-       <div class="card-footer"><span class="coming-pill golden">Aguardando inclusão</span></div>
+       <div class="card-footer"><span class="coming-pill">Em breve</span></div>
      </article>
  </section>
  <section id="catalogSection" class="catalog-section" hidden><h2 id="catalogTitle">Ferramentas</h2><div class="catalog-grid" id="catalogGrid"></div><p class="empty" id="emptyState" hidden>Nenhuma ferramenta encontrada.</p></section>
@@ -59,6 +70,6 @@
 <footer class="footer">by Delta VICTOR <span>•</span> Central de Ferramentas Policiais <span>•</span> Aplicativos independentes e processamento conforme cada ferramenta</footer>
 </div></div>
 <dialog id="infoDialog" class="modal"><div class="modal-head"><h2>Sobre esta Central</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><p>A Central reúne acessos a aplicativos independentes. O Organizador de BO já está disponível. Os demais cartões exibidos nesta etapa são prévias visuais e não processam arquivos.</p><p>As ferramentas serão incluídas gradualmente sem alterar as aplicações já testadas.</p><button class="modal-ok" data-close>Entendi</button></dialog>
-<dialog id="settingsDialog" class="modal"><div class="modal-head"><h2>Configurações de visualização</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><label class="toggle-row"><input type="checkbox" id="reduceGlow"> Reduzir sombras</label><label class="toggle-row"><input type="checkbox" id="compactCards"> Exibir cartões mais compactos</label><p class="settings-note">Essas preferências são armazenadas apenas neste navegador.</p><button class="modal-ok" data-close>Concluir</button></dialog>
+<dialog id="settingsDialog" class="modal"><div class="modal-head"><h2>Configurações de visualização</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><label class="toggle-row"><input type="checkbox" id="reduceGlow"> Reduzir efeitos luminosos</label><label class="toggle-row"><input type="checkbox" id="compactCards"> Exibir cartões mais compactos</label><p class="settings-note">Essas preferências são armazenadas apenas neste navegador.</p><button class="modal-ok" data-close>Concluir</button></dialog>
 <script src="./assets/js/central.js" defer></script>
 </body></html>
