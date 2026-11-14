@@ -58,7 +58,7 @@ a { color: inherit; }
   min-height: clamp(280px, 29vw, 432px);
   padding: 48px var(--gutter) 38px;
   background-color: #30495f;
-  background-image: linear-gradient(90deg, #30495f 48%, #30495f00 70%), url("../img/maleta-digital.jpg");
+  background-image: linear-gradient(90deg, #30495f 56%, #30495f00 72%), url("../img/maleta-digital.jpg");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto, auto 100%;
