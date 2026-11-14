@@ -70,17 +70,20 @@ function clearRepeatedPdfMarks(input){
  const frequency=new Map();
  for(const line of lines){
   const v=line.trim();
-  if(/^\d{8,16}$/.test(v))frequency.set(v,(frequency.get(v)||0)+1);
+  // Números ou UUIDs completos em linhas isoladas; nunca trechos de frases.
+  if(/^\d{8,16}$/.test(v) || /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)){
+   const key=v.toLowerCase();frequency.set(key,(frequency.get(key)||0)+1);
+  }
  }
- // Exige repetições expressivas; não confunde com um identificador legítimo.
+ // Exige repetições expressivas para não excluir identificadores legítimos.
  const marks=new Set(Array.from(frequency).filter(([,count])=>count>=6).map(([code])=>code));
- // Também reconhece o código de identificação de impressão do modelo PJC-MT
- // quando ocorrer pelo menos três vezes em linhas isoladas.
+ // Padrões de impressão conhecidos da PJC-MT: exigem ao menos três linhas isoladas.
  if((frequency.get('4910007903')||0)>=3)marks.add('4910007903');
+
  if(!marks.size)return {text:src,removed:0,marks:[]};
  let removed=0;
  const cleaned=lines.filter(line=>{
-  if(marks.has(line.trim())){removed++;return false;}
+  if(marks.has(line.trim().toLowerCase())){removed++;return false;}
   return true;
  }).join('\n').replace(/\n{3,}/g,'\n\n').trim();
  return {text:cleaned,removed,marks:[...marks]};
@@ -407,11 +410,65 @@ async function inflatePDF(bytes){
 function ascii85(b){let s=decodeRaw(b).replace(/^\s*<~/,'').replace(/~>\s*$/,'');const o=[];let sum=0,ct=0;for(let ch of s){if(/\s/.test(ch))continue;if(ch==='z'&&ct===0){o.push(0,0,0,0);continue;}if(ch==='~')break;let v=ch.charCodeAt(0)-33;if(v<0||v>=85)continue;sum=sum*85+v;ct++;if(ct===5){o.push((sum>>>24)&255,(sum>>>16)&255,(sum>>>8)&255,sum&255);sum=0;ct=0;}}if(ct){for(let i=ct;i<5;i++)sum=sum*85+84;for(let i=0;i<ct-1;i++)o.push((sum>>>(24-8*i))&255);}return new Uint8Array(o);}
 function asciihex(b){let h=decodeRaw(b).replace(/[^\da-fA-F]/g,'');if(h.length%2)h+='0';return new Uint8Array((h.match(/../g)||[]).map(v=>parseInt(v,16)));}
 function rle(b){let out=[];for(let p=0;p<b.length;){let n=b[p++];if(n===128)break;if(n<128)for(let i=0;i<=n;i++)out.push(b[p++]);else{let v=b[p++];for(let i=0;i<257-n;i++)out.push(v);}}return new Uint8Array(out);}
-async function pdfStream(raw){
+
+// Leitura local de PDFs Standard Security V1/V2 com RC4 e senha de abertura vazia.
+// Não altera arquivos originais nem remove restrições de edição; somente extrai texto acessível.
+function pdfMD5(input){
+ const shifts=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+ const K=Array.from({length:64},(_,i)=>Math.floor(Math.abs(Math.sin(i+1))*4294967296)>>>0);
+ const length=input.length, total=(((length+8)>>>6)+1)*64, b=new Uint8Array(total);b.set(input);b[length]=0x80;
+ const nBits=length*8;let low=nBits>>>0,high=Math.floor(nBits/4294967296)>>>0;
+ for(let j=0;j<4;j++){b[total-8+j]=(low>>>(8*j))&255;b[total-4+j]=(high>>>(8*j))&255;}
+ let a0=0x67452301,b0=0xefcdab89,c0=0x98badcfe,d0=0x10325476;
+ for(let off=0;off<total;off+=64){let a=a0,bb=b0,c=c0,d=d0,M=[];
+  for(let j=0;j<16;j++){let n=off+j*4;M.push((b[n]|(b[n+1]<<8)|(b[n+2]<<16)|(b[n+3]<<24))>>>0);}
+  for(let i=0;i<64;i++){
+   let f,g;if(i<16){f=(bb&c)|(~bb&d);g=i;}else if(i<32){f=(d&bb)|(~d&c);g=(5*i+1)%16;}else if(i<48){f=bb^c^d;g=(3*i+5)%16;}else{f=c^(bb|~d);g=(7*i)%16;}
+   let t=(a+f+K[i]+M[g])>>>0;const r=shifts[i];a=d;d=c;c=bb;bb=(bb+((t<<r)|(t>>>(32-r))))>>>0;
+  }
+  a0=(a0+a)>>>0;b0=(b0+bb)>>>0;c0=(c0+c)>>>0;d0=(d0+d)>>>0;
+ }
+ const output=new Uint8Array(16);[a0,b0,c0,d0].forEach((v,i)=>{for(let j=0;j<4;j++)output[i*4+j]=(v>>>(8*j))&255;});return output;
+}
+function pdfRC4(bytes,key){const S=new Uint8Array(256);for(let i=0;i<256;i++)S[i]=i;
+ let j=0;for(let i=0;i<256;i++){j=(j+S[i]+key[i%key.length])&255;const t=S[i];S[i]=S[j];S[j]=t;}
+ let x=0,y=0,out=new Uint8Array(bytes.length);for(let i=0;i<bytes.length;i++){x=(x+1)&255;y=(y+S[x])&255;let t=S[x];S[x]=S[y];S[y]=t;out[i]=bytes[i]^S[(S[x]+S[y])&255];}return out;
+}
+function pdfConcat(...items){const n=items.reduce((s,x)=>s+x.length,0),out=new Uint8Array(n);let i=0;for(const x of items){out.set(x,i);i+=x.length;}return out;}
+function pdfHex(raw,key){let m=new RegExp('/'+key+'\\s*<([a-fA-F0-9]+)>').exec(raw);return m?new Uint8Array(m[1].match(/../g).map(x=>parseInt(x,16))):null;}
+function pdfSecurityContext(bytes,objs){
+ const body=decodeRaw(bytes);const trailer=[...body.matchAll(/\btrailer\s*<<(.*?)>>/gs)].at(-1)?.[1]||'';
+ const encId=getRef(trailer,'Encrypt');if(!encId)return null;
+ const enc=objs.get(encId)||'';
+ const v=paramNum(enc,'V'),r=paramNum(enc,'R'),len=paramNum(enc,'Length')||40;
+ if(!/\/Filter\s*\/Standard\b/.test(enc)|| ![1,2].includes(v)||![2,3].includes(r)||len<40||len>128||len%8)
+   throw Error('Este PDF usa um tipo de criptografia ainda não suportado pelo leitor offline.');
+ const O=pdfHex(enc,'O'),U=pdfHex(enc,'U'),idMatch=/\/ID\s*\[\s*<([a-fA-F0-9]+)>/.exec(trailer);
+ const docID=idMatch?new Uint8Array(idMatch[1].match(/../g).map(x=>parseInt(x,16))):null;
+ const P=Number(/\/P\s+(-?\d+)/.exec(enc)?.[1]);
+ if(!O||!U||!docID||!Number.isFinite(P))throw Error('Dicionário de segurança do PDF incompleto.');
+ const pad=new Uint8Array([0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,0x64,0x00,0x4E,0x56,0xFF,0xFA,0x01,0x08,0x2E,0x2E,0x00,0xB6,0xD0,0x68,0x3E,0x80,0x2F,0x0C,0xA9,0xFE,0x64,0x53,0x69,0x7A]);
+ const pBytes=new Uint8Array(4);for(let i=0;i<4;i++)pBytes[i]=(P>>>(8*i))&255;
+ let key=pdfMD5(pdfConcat(pad,O,pBytes,docID));const n=len/8;
+ if(r>=3)for(let j=0;j<50;j++)key=pdfMD5(key.slice(0,n));key=key.slice(0,n);
+ let check;
+ if(r===2)check=pdfRC4(pad,key);
+ else{check=pdfMD5(pdfConcat(pad,docID));for(let i=0;i<20;i++)check=pdfRC4(check,new Uint8Array(key.map(b=>b^i)));}
+ const count=r===2?32:16;
+ if(!check.slice(0,count).every((b,i)=>b===U[i]))
+   throw Error('Não foi possível ler o PDF sem senha. O documento pode exigir uma senha de abertura.');
+ return function decrypt(objectNumber,data){
+  const add=new Uint8Array([objectNumber&255,(objectNumber>>>8)&255,(objectNumber>>>16)&255,0,0]);
+  const k=pdfMD5(pdfConcat(key,add)).slice(0,Math.min(n+5,16));return pdfRC4(data,k);
+ };
+}
+
+async function pdfStream(raw,objectId=null,decrypt=null){
  let match=/\bstream\r?\n/.exec(raw);
  if(!match)return null;
  let p=match.index+match[0].length,end=raw.lastIndexOf('endstream');if(end<p)return null;
  let b=strbytes(raw.slice(p,end).replace(/\r?\n$/,''));
+ if(decrypt&&objectId!==null)b=decrypt(objectId,b);
  const d=raw.slice(0,match.index);
  const filters=(d.match(/\/Filter\s*(?:\[[^\]]+\]|\/\w+)/)||[''])[0].match(/\/(FlateDecode|Fl|ASCII85Decode|A85|ASCIIHexDecode|AHx|RunLengthDecode|RL|DCTDecode|JPXDecode)\b/g)||[];
  for(let filter of filters){switch(filter){
@@ -427,13 +484,14 @@ async function pdfStream(raw){
 async function objectsPDF(bytes){
  const body=decodeRaw(bytes);
  if(!body.startsWith('%PDF-'))throw Error('Arquivo inválido: não é um PDF.');
- if(/\/Encrypt\s+(?:\d+\s+\d+\s+R|<<)/.test(body))throw Error('PDF protegido ou criptografado. Use um PDF digital sem senha.');
+ 
  let objs=new Map();const rex=/(\d+)\s+(\d+)\s+obj\b([\s\S]*?)\bendobj\b/g;let m;
  while((m=rex.exec(body))){objs.set(Number(m[1]),m[3]);}
+ objs.pdfDecrypt=pdfSecurityContext(bytes,objs);
  for(const [id,raw] of Array.from(objs)){
    if(!/\/Type\s*\/ObjStm\b/.test(raw))continue;
    const n=paramNum(raw,'N'),first=paramNum(raw,'First');if(!n||n>100000)continue;
-   const content=await pdfStream(raw);if(!content)continue;
+   const content=await pdfStream(raw,id,objs.pdfDecrypt);if(!content)continue;
    const s=decodeRaw(content),hdr=s.slice(0,first).trim().split(/\s+/).map(Number);
    for(let j=0;j<n;j++){
      const obj=hdr[j*2],off=hdr[j*2+1],next=(j<n-1?hdr[(j+1)*2+1]:s.length-first);
@@ -469,7 +527,7 @@ async function buildFonts(objs){
    let enc=/\/Encoding\s*\/(\w+)/.exec(raw)?.[1]||'';
    const unicode=getRef(raw,'ToUnicode');let cmap=new Map();
    if(unicode&&objs.has(unicode)){
-     try{let b=await pdfStream(objs.get(unicode));if(b)cmap=cmapUnicodes(decodeRaw(b));}catch(e){/* map optional, try other encoding */}
+     try{let b=await pdfStream(objs.get(unicode),unicode,objs.pdfDecrypt);if(b)cmap=cmapUnicodes(decodeRaw(b));}catch(e){/* map optional, try other encoding */}
    }
    const isCID=/\/Subtype\s*\/Type0\b/.test(raw)||/Identity-[HV]/.test(raw);
    const diff={};
@@ -603,13 +661,16 @@ async function pdfText(file){
   let ptxt=[];
   for(const ref of refs){
    const raw=objs.get(ref);if(!raw)continue;
-   const bytes=await pdfStream(raw);if(!bytes)continue;
+   const bytes=await pdfStream(raw,ref,objs.pdfDecrypt);if(!bytes)continue;
    const stream=decodeRaw(bytes);
    // Identificação de impressão em camada isolada: muitos Tj com o mesmo código
    // numérico, inclinado e repetido. Não depende do valor dos dígitos.
    const numeric=(stream.match(/\(\d{8,16}\)\s*Tj\b/g)||[]).length;
+   // Algumas emissões usam UUID em vez de código numérico na marca transversal.
+   const uuid=(stream.match(/\([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\)\s*Tj\b/gi)||[]).length;
    const total=(stream.match(/\bTj\b/g)||[]).length;
-   if(numeric>=8 && total>0 && numeric/total>=0.7)continue;
+   // Ignorar exclusivamente fluxos dominados por marcas; preservar conteúdo misto.
+   if(numeric+uuid>=8 && total>0 && (numeric+uuid)/total>=0.7)continue;
    const txt=pdfContentText(stream,fontDefs,resources);
    if(txt.trim())ptxt.push(txt.trim());
   }
