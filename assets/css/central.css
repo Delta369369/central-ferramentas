@@ -145,3 +145,132 @@
  .card-bo-identity::before{width:160px;height:160px}
 }
 @media(prefers-reduced-motion:reduce){.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity{transition:none}}
+
+/* ===== PALETA NEON VERDE + CIANO · referência visual aprovada =====
+   Somente CSS da página inicial. Cada ferramenta possui fundo próprio.
+   O texto e a estrutura funcional permanecem inalterados. */
+:root{
+  --bg:#030c16;--panel:#061423;--text:#f2ffff;--muted:#c1f5f4;
+  --cyan:#5af8ff;--purple:#7eecff;--orange:#47f99a;--lime:#6cff8b;
+}
+body{
+ background:
+  radial-gradient(ellipse at 8% 0%,rgba(20,253,157,.11),transparent 38%),
+  radial-gradient(ellipse at 91% 34%,rgba(3,217,255,.10),transparent 36%),
+  repeating-linear-gradient(90deg,transparent 0 95px,rgba(30,196,217,.038) 96px 97px,transparent 98px 190px),
+  repeating-linear-gradient(0deg,transparent 0 103px,rgba(34,242,169,.024) 104px 105px,transparent 106px 213px),
+  linear-gradient(130deg,#020b16,#061525 51%,#020a15);
+ color:#f2ffff;
+}
+.sidebar{
+ border-color:#38f5b8;
+ background:radial-gradient(ellipse at 30% 10%,#0d3228,transparent 46%),linear-gradient(165deg,#04141e,#04111d 62%,#041a1b);
+ box-shadow:0 0 13px #2dffb466,0 0 30px #00e6d522,inset 0 0 22px #20feb322;
+}
+.sidebar:before{border-right-color:#54ffb3;border-top-color:#38e7ff}
+.brand{color:#82ffcf;text-shadow:0 0 10px #39ffc9,0 0 25px #1cffb077;filter:none}
+.seal{color:#78ffb0;background:radial-gradient(circle,#17764b 0%,#073a38 42%,transparent 68%);filter:drop-shadow(0 0 13px #17ff9b)}
+.seal svg{filter:drop-shadow(0 0 9px #33ff9f)}
+.main-nav{gap:16px}
+.nav-item{color:#b3f7fb;border-color:#216f70;background:linear-gradient(100deg,#08282d,#091626)}
+.nav-item span{color:#80eaff}
+.nav-item:hover{background:linear-gradient(105deg,#0c493a,#102c42);border-color:#6bf8dc}
+.nav-item.active{background:linear-gradient(100deg,#0d593b,#10463c 65%,#082630);border-color:#78ffa4;color:#f0fff5;box-shadow:0 0 12px #57ff8d,0 0 25px #2cff9b55,inset 0 0 13px #24fcaa50}
+.nav-item.active .nav-icon{color:#bcff9e}
+.sidebar-signature{color:#b5ffce;border-top-color:#257c71;text-shadow:0 0 12px #49ff91}
+.topbar{
+ background:linear-gradient(110deg,#061828ed,#061b27e8);
+ border-color:#1d9e9d;
+ box-shadow:0 0 13px #22ffcb35,inset 0 0 24px #13e8bc12;
+}
+.heading-symbol{color:#78ffe9;filter:drop-shadow(0 0 10px #00e6e2)}
+.heading-copy h1{color:#eafffb;text-shadow:0 0 9px #39ff9c,0 0 22px #0dd79e83}
+.heading-copy p{color:#b1f2fb}
+.round-icon{color:#80ffba;background:#052a2e;box-shadow:0 0 12px #1cffb87c}
+.round-icon.violet{color:#50f7ff}
+.notice-dot{background:#70ff91}
+.search-wrap{
+ background:linear-gradient(100deg,#041c2a,#071923);
+ border-color:#64ff99;
+ box-shadow:0 0 12px #52ff81a8,0 0 24px #19f79a50,inset 0 0 13px #27dbe11d;
+}
+.search-wrap svg{color:#72ffb7}
+.search-wrap input{color:#f4ffff}
+.search-wrap input::placeholder{color:#b6faff}
+.filter{background:#061d2a;border-color:#3c9ca9;color:#bcf9ff;box-shadow:0 0 6px #0fffd01a}
+.filter:hover,.filter.active{background:linear-gradient(110deg,#64ff79,#37eac4);border-color:#93ffb2;color:#06231a;box-shadow:0 0 12px #52ff84a6}
+.footer{color:#9bcfce;border-top-color:#206b71}
+.footer span{color:#69ffc0}
+/* FUNDOS INDIVIDUAIS — quatro famílias realmente distintas */
+
+/* HASH: VERDE ESMERALDA, luz de matriz digital */
+.card-hash-identity{
+ border:2px solid #6eff91;
+ background:
+  radial-gradient(ellipse at 31% 5%,rgba(95,255,121,.30),transparent 36%),
+  radial-gradient(ellipse at 93% 91%,rgba(12,208,155,.24),transparent 47%),
+  repeating-linear-gradient(90deg,transparent 0 27px,rgba(93,255,121,.035) 28px 29px),
+  linear-gradient(150deg,#092d1d 0%,#05271f 44%,#041a23);
+ box-shadow:0 0 12px #67ff91b5,0 0 32px #2cff8a86,0 0 65px #1eff7940,inset 0 0 29px #32ff8b28;
+}
+.card-hash-identity::after{border-color:#9cffb648}
+.card-hash-identity h2{color:#92ff9f;text-shadow:0 0 13px #36ff83,0 0 25px #26f78864}
+.card-hash-identity .hash-mark{color:#90ffb2;filter:drop-shadow(0 0 9px #48ff9d)}
+.card-hash-identity .hash-subtitle{color:#d6ffe1}
+.card-hash-identity .hash-description{color:#e7fffa}
+.card-hash-identity .hash-feature.blue{border-color:#63eaff;background:linear-gradient(110deg,#06354b,#145caa)}
+.card-hash-identity .hash-feature.purple{border-color:#d499ff;background:linear-gradient(110deg,#311447,#7240ae)}
+.card-hash-identity .hash-feature.orange{border-color:#ffbf6b;background:linear-gradient(110deg,#59320c,#a95d17)}
+.card-hash-identity .hash-feature.lime{border-color:#9dff7a;background:linear-gradient(110deg,#18532d,#268c3d)}
+.card-hash-identity .hash-algos{background:linear-gradient(105deg,#9a6515,#ffe7a0 48%,#b57c16);color:#241806;border-color:#ffefa9}
+
+/* BO: AZUL GLACIAL, linguagem documental com leves acentos esmeralda */
+.card-bo-identity{
+ border:2px solid #53e9ff;
+ background:
+  radial-gradient(ellipse at 10% 8%,rgba(65,232,255,.28),transparent 43%),
+  radial-gradient(ellipse at 90% 85%,rgba(19,96,240,.24),transparent 49%),
+  linear-gradient(120deg,#083148,#09213c 52%,#061527);
+ box-shadow:0 0 13px #47dfffbb,0 0 35px #219efb75,inset 0 0 29px #36dfff27;
+}
+.card-bo-identity::before{border-color:#58f4ff72;background:radial-gradient(circle,#44d5ff34,transparent 72%);box-shadow:0 0 28px #11dffc30}
+.card-bo-identity::after{border-color:#86f7ff62}
+.card-bo-identity .card-icon{color:#a0f9ff;text-shadow:0 0 12px #19dfff}
+.card-bo-identity h2{color:#9bf8ff;text-shadow:0 0 12px #39dfff}
+.card-bo-identity p{color:#e5faff}
+.card-bo-identity .action-button{background:linear-gradient(105deg,#10bdec,#65f4ff);color:#05212b;box-shadow:0 0 13px #23dfff,0 0 28px #0bc7f666}
+.card-bo-identity .mini-fav{color:#c5fffd;background:#0c3346;border-color:#64d6e8}
+
+/* SENHAS: VIOLETA + ÍNDIGO, mantendo harmonia com a nova paleta */
+.card-password-identity{
+ border:2px solid #cb8bff;
+ background:
+  radial-gradient(ellipse at 80% 0%,rgba(207,98,255,.36),transparent 42%),
+  radial-gradient(ellipse at 0% 94%,rgba(61,83,246,.30),transparent 44%),
+  linear-gradient(125deg,#30134a,#21143d 58%,#161831);
+ box-shadow:0 0 13px #cf86ffb0,0 0 36px #a356ff8c,inset 0 0 30px #af4bff26;
+}
+.card-password-identity::before{border-color:#d88dff78;background:#d664ff16}
+.card-password-identity::after{border-color:#dba6ff50}
+.card-password-identity .card-icon,.card-password-identity h2{color:#f2bdff;text-shadow:0 0 12px #d879ff}
+.card-password-identity p{color:#f5e6ff}
+.card-password-identity .coming-pill{background:linear-gradient(95deg,#7235b6,#bc70ed);border-color:#f4c7ff;color:#fff}
+.card-password-identity .action-button{background:linear-gradient(105deg,#8039c5,#d06bff);color:#160925}
+
+/* FUTURAS: COBRE + ÂMBAR, aviso de projeto em desenvolvimento */
+.card-future-identity{
+ border:2px solid #ffae65;
+ background:
+  repeating-linear-gradient(145deg,rgba(255,155,65,.060) 0 2px,transparent 3px 26px),
+  radial-gradient(ellipse at 82% 88%,rgba(255,131,34,.30),transparent 54%),
+  linear-gradient(128deg,#3b240e,#2a1d14 55%,#181523);
+ box-shadow:0 0 13px #ffb165b8,0 0 32px #f88d497e,inset 0 0 33px #ff9a432c;
+}
+.card-future-identity::after{border-color:#ffbc8380}
+.card-future-identity .card-icon,.card-future-identity h2{color:#ffcf91;text-shadow:0 0 12px #ff9f38}
+.card-future-identity p{color:#fff0d7}
+.card-future-identity .coming-pill.golden{background:linear-gradient(95deg,#bb7b2c,#ffe4a0);color:#261605;border-color:#ffe3a3}
+/* Acessibilidade em contraste e foco de teclado */
+:where(button,a,input):focus-visible{outline:3px solid #bbff94;outline-offset:3px}
+.reduce-glow :is(.sidebar,.topbar,.search-wrap,.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity){box-shadow:none!important}
+.reduce-glow :is(.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity) h2{text-shadow:none!important}
