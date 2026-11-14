@@ -230,6 +230,53 @@ main { flex: 1; padding: 16px 0 24px; }
 .reduce-glow :is(.feature-card, .catalog-card, .search-wrap, .sidebar) { box-shadow: none; }
 .compact-cards :is(.feature-card, .catalog-card) { padding: 13px; gap: 10px; }
 
+/* Identidade neon com superfícies claras. */
+body {
+  background:
+    radial-gradient(ellipse at 10% 15%, #17375a66, transparent 45%),
+    radial-gradient(ellipse at 90% 80%, #40226544, transparent 45%),
+    #080f20;
+}
+.sidebar, .topbar {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(135deg, #10263b, #11182e) padding-box,
+    linear-gradient(145deg, #60e8ff, #8664de 55%, #345573) border-box;
+  box-shadow: 0 0 20px #43d6ff20;
+}
+.heading-copy h1 { color: #a4f4ff; text-shadow: 0 0 22px #36d9ff40; }
+.seal { filter: drop-shadow(0 0 9px #eaba6570); }
+.brand { color: #b3f3ff; }
+.nav-item { border-color: #425575; background: #16263f; }
+.nav-item.active {
+  background: linear-gradient(110deg, #21495b, #272a4d);
+  border-color: #8decff;
+  color: #d9faff;
+  box-shadow: inset 3px 0 #74edff, 0 0 12px #5ddfff30;
+}
+.nav-item:hover { border-color: #91dfff; color: #dcf9ff; }
+.nav-icon { text-shadow: 0 0 10px #58dfff80; }
+.search-wrap { border: 1px solid #eeaf75; box-shadow: 0 0 16px #efad7030; }
+.filter.active { background: #b0edfa; border-color: #80e5ff; box-shadow: 0 0 12px #65dfff33; }
+.feature-card, .catalog-card {
+  border-width: 2px;
+  background: linear-gradient(145deg, #fcfdff, #edf5fa);
+  box-shadow: 0 0 5px var(--card-border), 0 0 20px var(--card-glow);
+}
+#hashPreview, #organizerCard { --card-border: #6ad6ed; --card-glow: #2cc9ef38; }
+#passwordCard { background: linear-gradient(145deg, #fdfbff, #f1ecfb); --card-border: #bb98f1; --card-glow: #ad69f53b; }
+#futureCard { background: linear-gradient(145deg, #fffdfa, #f9f1e7); --card-border: #e9b675; --card-glow: #e6a04e33; }
+.card-icon { border: 1px solid var(--card-border); box-shadow: 0 0 10px var(--card-glow); }
+.feature-card .action-button, .catalog-card a {
+  background: linear-gradient(110deg, #b7eff7, #87d6ee);
+  border-color: #53aec7;
+  color: #123749;
+}
+.feature-card .action-button:hover, .catalog-card a:hover { background: #cbf5ff; }
+.reduce-glow :is(.topbar, .feature-card, .catalog-card, .search-wrap, .sidebar, .nav-item, .filter, .card-icon) { box-shadow: none; }
+.reduce-glow :is(.heading-copy h1, .nav-icon) { text-shadow: none; }
+.reduce-glow .seal { filter: none; }
+
 @media (max-width: 850px) {
   .app-shell { grid-template-columns: minmax(0, 1fr); }
   .sidebar-inner { padding: 12px; gap: 12px; }
