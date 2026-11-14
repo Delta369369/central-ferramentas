@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id);
 const STORAGE={favorites:"delta-central-favoritos",recent:"delta-central-recentes",glow:"delta-central-less-glow",compact:"delta-central-compact"};
 const get=(key,otherwise)=>{try{const v=JSON.parse(localStorage.getItem(key));return v===null?otherwise:v}catch{return otherwise}};
 const set=(key,v)=>{try{localStorage.setItem(key,JSON.stringify(v))}catch{}};
-const tool={id:"organizador-bo",nome:"Organizador de BO",descricao:"Formate e organize boletins de ocorrência preservando a versão corrigida de leitura de PDFs.",categoria:"Policial",url:"./ferramentas/organizador-bo/"};
+const tool={id:"organizador-bo",nome:"Organizador de BO",descricao:"Facilita a leitura e a organização dos boletins de ocorrência e permite copiar textos",categoria:"Policial",url:"./ferramentas/organizador-bo/"};
 const cards=[{id:"gerador-hash",nome:"Gerador de Hash",descricao:"Coleta e verificação de integridade de arquivos.",categoria:"Perícia Digital",active:false},{...tool,active:true},{id:"gerador-senhas",nome:"Gerador de Senha Forte",descricao:"Geração de senhas aleatórias e seguras.",categoria:"Utilitários",active:false},{id:"futuras",nome:"Próximas Ferramentas",descricao:"Novas ferramentas serão incorporadas gradualmente.",categoria:"Documentos",active:false}];
 let view="inicio",category="todas";
 function list(key){const value=get(key,[]);return Array.isArray(value)?value:[]}
