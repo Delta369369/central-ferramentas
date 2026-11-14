@@ -1,75 +1,65 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#09061a">
-<meta name="description" content="Central de Ferramentas by Delta VICTOR — acesso centralizado às ferramentas de trabalho.">
-<title>Central de Ferramentas | by Delta VICTOR</title>
-<link rel="stylesheet" href="./assets/css/central.css">
-</head>
-<body>
-<div class="app-shell">
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-inner">
-    <a class="brand" href="./" aria-label="Central de Ferramentas, início">
-      <div class="seal" aria-hidden="true"><svg viewBox="0 0 100 110" fill="none"><path d="M50 3 88 17v35c0 27-19 43-38 54C31 95 12 79 12 52V17L50 3Z" stroke="currentColor" stroke-width="4"/><path d="m50 24 8 17 19 2-14 13 4 19-17-9-17 9 4-19-14-13 19-2 8-17Z" fill="currentColor" opacity=".85"/></svg></div>
-      <span>Central de<br>Ferramentas</span>
-    </a>
-    <nav class="main-nav" aria-label="Navegação principal">
-      <button class="nav-item active" data-view="inicio"><span class="nav-icon" aria-hidden="true">⌂</span>Início</button>
-      <button class="nav-item" data-view="ferramentas"><span class="nav-icon" aria-hidden="true">▦</span>Ferramentas</button>
-      <button class="nav-item" data-view="favoritos"><span class="nav-icon" aria-hidden="true">☆</span>Favoritos</button>
-      <button class="nav-item" data-view="recentes"><span class="nav-icon" aria-hidden="true">◷</span>Recentes</button>
-    </nav>
-    <div class="sidebar-signature"><span>by Delta</span><strong>VICTOR</strong></div>
-  </div>
-</aside>
-<div class="main-side">
-<header class="topbar">
- <div class="heading-symbol" aria-hidden="true"><svg viewBox="0 0 64 72" fill="none"><path d="M32 3 58 12v24c0 19-13 29-26 33C19 65 6 55 6 36V12L32 3Z" stroke="currentColor" stroke-width="3.5"/><path d="m19 35 9 9 18-19" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
- <div class="heading-copy"><h1>Central de Ferramentas</h1><p>Acesse todas as suas ferramentas de trabalho em um só lugar.</p></div>
- <div class="top-actions"><button id="noticeButton" class="round-icon violet" title="Informações sobre a Central" aria-label="Informações sobre a Central">♟<span class="notice-dot"></span></button><button id="settingsButton" class="round-icon cyan" title="Configurações de visualização" aria-label="Configurações de visualização">⚙</button><button id="menuButton" class="menu-button" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menu">☰</button></div>
-</header>
-<main id="main">
- <div class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5.2 5.2"/></svg><input type="search" id="search" aria-label="Buscar ferramenta" placeholder="Buscar ferramenta" autocomplete="off"></div>
- <div class="filter-strip" id="filterStrip" aria-label="Categorias">
-  <button class="filter active" data-filter="todas">Todas</button><button class="filter" data-filter="Policial">Policial</button><button class="filter" data-filter="Perícia Digital">Perícia Digital</button><button class="filter" data-filter="Documentos">Documentos</button><button class="filter" data-filter="Utilitários">Utilitários</button>
- </div>
- <section class="dashboard" id="dashboard" aria-label="Ferramentas">
-   <article class="hash-panel neon-panel card-hash-identity" id="hashPreview">
-     <div class="hash-mark" aria-hidden="true"><svg viewBox="0 0 60 72" fill="none"><path d="M30 3 54 12v22c0 17-10 29-24 35C16 63 6 51 6 34V12L30 3Z" stroke="currentColor" stroke-width="3"/><path d="M20 30c2-5 6-9 11-9 6 0 10 4 11 10M17 38c0-10 5-17 14-17M22 48c-1-7 0-18 9-18 4 0 6 3 6 7M27 56c2-4 4-10 3-18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
-     <h2>GERADOR DE HASH</h2><p class="hash-subtitle">COLETA, ORGANIZAÇÃO E INTEGRIDADE<br>DE PROVAS DIGITAIS</p>
-     <p class="hash-description">Organize arquivos e registre códigos de verificação para apoiar a conferência da integridade das evidências digitais.</p>
-     <div class="hash-buttons" aria-label="Funções previstas">
-       <div class="hash-feature blue"><span class="feature-icon">▣</span><span>Coletar <b>FOTOS</b></span></div>
-       <div class="hash-feature purple"><span class="feature-icon">▸</span><span>Coletar <b>VÍDEOS</b></span></div>
-       <div class="hash-feature orange"><span class="feature-icon">♩</span><span>Coletar <b>ÁUDIOS</b></span></div>
-       <div class="hash-feature lime"><span class="feature-icon">▱</span><span>Coletar <b>DIVERSOS</b></span></div>
-     </div>
-     <div class="hash-algos"># &nbsp; MD5, SHA-256 e SHA-512</div>
-     <div class="hash-detail"><span>▱</span> Pacote de arquivos ZIP</div><div class="hash-detail"><span>♢</span> Relatório de integridade</div><div class="hash-detail"><span>▤</span> Verificação posterior dos hashes</div>
-     <p class="coming-small"><span class="status-dot"></span> Visual de referência — ferramenta ainda não incorporada</p>
-   </article>
-   <div class="right-tools" id="rightTools">
-     <article class="feature-card neon-panel cyan-card card-bo-identity" id="organizerCard">
-       <div class="feature-title"><span class="card-icon" aria-hidden="true">▤</span><div><h2>ORGANIZADOR DE BO</h2><p>Facilita a leitura e a organização dos boletins de ocorrência e permite copiar textos</p></div></div>
-       <div class="card-footer"><button type="button" class="mini-fav" data-fav="organizador-bo" aria-pressed="false" aria-label="Adicionar Organizador de BO aos favoritos">☆ Favoritar</button><a class="action-button" id="organizerLink" href="./ferramentas/organizador-bo/">INICIAR <span aria-hidden="true">↗</span></a></div>
-     </article>
-     <article class="feature-card neon-panel purple-card card-password-identity" id="passwordCard">
-       <div class="feature-title"><span class="card-icon" aria-hidden="true">⚿</span><div><h2>GERADOR DE SENHA FORTE</h2><p>Gere senhas aleatórias e mais resistentes para proteger seus acessos.</p></div></div>
-       <div class="card-footer"><span class="coming-pill">Em desenvolvimento</span><button class="action-button unavailable" disabled>EM BREVE</button></div>
-     </article>
-     <article class="feature-card neon-panel orange-card card-future-identity" id="futureCard">
-       <div class="feature-title"><span class="card-icon" aria-hidden="true">♙</span><div><h2>PRÓXIMAS FERRAMENTAS</h2><p>Novas aplicações serão incorporadas aqui, uma por vez, mantendo cada ferramenta independente.</p></div></div>
-       <div class="card-footer"><span class="coming-pill golden">Aguardando inclusão</span></div>
-     </article>
-   </div>
- </section>
- <section id="catalogSection" class="catalog-section" hidden><h2 id="catalogTitle">Ferramentas</h2><div class="catalog-grid" id="catalogGrid"></div><p class="empty" id="emptyState" hidden>Nenhuma ferramenta encontrada.</p></section>
-</main>
-<footer class="footer">by Delta VICTOR <span>•</span> Central de Ferramentas <span>•</span> Aplicativos independentes e processamento conforme cada ferramenta</footer>
-</div></div>
-<dialog id="infoDialog" class="modal"><div class="modal-head"><h2>Sobre esta Central</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><p>A Central reúne acessos a aplicativos independentes. O Organizador de BO já está disponível. Os demais cartões exibidos nesta etapa são prévias visuais e não processam arquivos.</p><p>As ferramentas serão incluídas gradualmente sem alterar as aplicações já testadas.</p><button class="modal-ok" data-close>Entendi</button></dialog>
-<dialog id="settingsDialog" class="modal"><div class="modal-head"><h2>Configurações de visualização</h2><button class="modal-close" data-close aria-label="Fechar">✕</button></div><label class="toggle-row"><input type="checkbox" id="reduceGlow"> Reduzir intensidade dos efeitos neon</label><label class="toggle-row"><input type="checkbox" id="compactCards"> Exibir cartões mais compactos</label><p class="settings-note">Essas preferências são armazenadas apenas neste navegador.</p><button class="modal-ok" data-close>Concluir</button></dialog>
-<script src="./assets/js/central.js" defer></script>
-</body></html>
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Central de Ferramentas — protótipo neon</title>
+<style>
+:root{color-scheme:dark;--cyan:#35f6ff;--purple:#ca78ff;--orange:#ffb25e;--gold:#ffda77}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 65% 45%,#200b3b70,transparent 60%),repeating-linear-gradient(38deg,transparent 0 145px,#6125c21a 146px 148px,transparent 149px 260px),repeating-linear-gradient(142deg,transparent 0 185px,#47258426 186px 188px,transparent 189px 320px),#050511;color:#eddcff;font-family:"Arial Narrow","Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:default}button:focus-visible,input:focus-visible{outline:2px solid white;outline-offset:5px}
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:25px;padding:18px;max-width:1700px;margin:auto;min-height:100vh}
+.panel{position:relative;background:linear-gradient(135deg,#100a20e8,#060819ed);border:1px solid var(--edge,var(--cyan));border-radius:23px;box-shadow:0 0 5px var(--edge,var(--cyan)),0 0 23px var(--glow,#18c7ff35),inset 0 0 18px #16c8ff10}
+.panel:before{content:"";position:absolute;inset:9px;border:1px solid var(--edge,var(--cyan));opacity:.3;border-radius:15px;pointer-events:none}
+aside{--edge:#b171e9;display:flex;flex-direction:column;padding:30px 19px;gap:26px}
+.brand{text-align:center;color:var(--cyan);font-size:29px;font-weight:800;line-height:1.12;text-shadow:0 0 13px #13dafa9c}
+.badge{font-size:94px;line-height:1.15;color:var(--gold);filter:drop-shadow(0 0 12px #e0ab53);margin-bottom:20px}
+nav{display:grid;gap:35px;margin-top:38px}
+nav button{padding:16px 13px;text-align:left;border:1px solid #654e8745;border-radius:12px;background:linear-gradient(110deg,#28144488,#151026);color:var(--tone);font-size:24px;font-weight:700;text-shadow:0 0 12px var(--tone)}
+nav button:first-child{border-color:#ffffcd;color:#fff;box-shadow:0 0 9px #faffcc,inset 0 0 15px #e0d8ff40}
+nav span{display:inline-block;width:35px}
+.signature{margin-top:auto;padding-top:70px;text-align:center;color:var(--gold);font:italic 36px Georgia,serif;text-shadow:0 0 13px #ffce5c}
+.signature strong{display:block;font-size:27px;font-weight:400;font-style:normal}
+main{min-width:0}
+header{display:flex;align-items:center;gap:25px;padding:25px;--edge:#644785}
+.shield{color:var(--cyan);font-size:67px;filter:drop-shadow(0 0 10px #00bbff)}
+h1{color:var(--cyan);font-size:clamp(24px,3.2vw,49px);margin:0 0 5px;line-height:1.1;text-shadow:0 0 15px #10d8e764}
+header p{margin:0;color:#d9b1f6;font-size:19px}
+.actions{display:flex;gap:15px;margin-left:auto}
+.actions button{border:2px solid currentColor;color:var(--cyan);background:transparent;border-radius:50%;width:52px;height:52px;font-size:29px;box-shadow:0 0 12px #14d8ff60}
+.actions button:first-child{color:var(--purple)}
+.search{display:flex;align-items:center;gap:15px;border:2px solid #dd975d;border-radius:25px;margin:22px 0;padding:13px 20px;box-shadow:0 0 15px #ff8d3545,inset 0 0 15px #ff8e2510;color:var(--orange);background:#170c246e}
+.search span{font-size:33px}.search input{width:100%;border:0;outline:0;background:transparent;font-size:24px;color:var(--orange);font-weight:650}.search input::placeholder{color:var(--orange);opacity:1}
+.cards{display:grid;grid-template-columns:minmax(290px, .78fr) minmax(0,1.22fr);gap:26px}
+.hash{grid-row:span 3;padding:22px 25px;text-align:center}
+h2{margin:0 0 12px;font-size:clamp(23px,2.5vw,37px);line-height:1.1;color:var(--edge,var(--cyan));text-shadow:0 0 12px var(--glow,#1bd0ed60)}
+.hash .shield{font-size:65px;margin-bottom:12px}
+.hash h3{font-size:17px;margin:0 0 18px;line-height:1.3;color:#e2bcff}
+.hash p{font-size:17px;line-height:1.4;margin:0 0 25px}
+.formats{display:grid;gap:14px;text-align:left}
+.format{border:1px solid var(--tone);box-shadow:0 0 12px color-mix(in srgb,var(--tone) 40%,transparent),inset 0 0 18px color-mix(in srgb,var(--tone) 12%,transparent);border-radius:14px;display:flex;align-items:center;gap:13px;padding:7px 10px;font-size:21px;font-weight:700;color:white}
+.format b{color:var(--tone)}.format i{font-style:normal;display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:color-mix(in srgb,var(--tone) 65%,#1d064b);font-size:27px;box-shadow:0 0 15px color-mix(in srgb,var(--tone) 45%,transparent)}
+.gold{background:linear-gradient(115deg,#a76b20,#ffed9e 35%,#d69d39 75%,#fff2b3);border:2px solid #ffe8ab;border-radius:35px;color:#281603;font-size:20px;font-weight:800;padding:12px 8px;box-shadow:0 0 15px #ffc54960}
+.hash .gold{margin:18px 0 12px}
+.details{display:grid;gap:9px;text-align:left}.details div{padding:10px;border:1px solid #7e51b4;border-radius:12px;background:#1f0d3855;color:#d8afff;font-size:15px}.details div:first-child{color:#72edf7;border-color:#287cb7}.details div:last-child{color:var(--orange);border-color:#a15b5b}
+.tool{padding:29px;display:flex;flex-direction:column;justify-content:center;min-height:220px}
+.tool .intro{display:flex;gap:22px;align-items:flex-start}.icon{font-size:55px;color:var(--edge);text-shadow:0 0 16px var(--edge);line-height:1}
+.tool p{font-size:20px;line-height:1.35;margin:8px 0 24px}
+.primary{width:100%;border:1px solid var(--edge);border-radius:16px;padding:14px;background:var(--edge);color:#040713;font-size:27px;font-weight:850;box-shadow:0 0 24px var(--glow)}
+.password{--edge:#c178ff;--glow:#ad36ff65}.password .primary{background:linear-gradient(100deg,#7835f1,#a243ff)}
+.future{--edge:#ffb15e;--glow:#ff913b42;text-align:center}.future .intro{align-items:center;justify-content:center}.future .gold{align-self:center;padding:9px 30px;margin:20px 0 0}
+@media(max-width:1100px){.shell{grid-template-columns:205px minmax(0,1fr);gap:20px}.cards{gap:18px;grid-template-columns:minmax(250px,.9fr) minmax(0,1.1fr)}.brand{font-size:23px}.tool{padding:23px}.tool .intro{gap:12px}.icon{font-size:37px}.actions{display:none}.format{font-size:17px}}
+@media(max-width:850px){.shell{grid-template-columns:1fr}.badge,.signature{display:none}aside{padding:18px;gap:16px}nav{display:flex;flex-wrap:wrap;margin:0;gap:8px}nav button{font-size:17px;padding:9px}.brand{font-size:23px}header{padding:20px}.cards{grid-template-columns:1fr}.hash{grid-row:auto}.tool{min-height:0}.hash{max-width:100%}header .shield{font-size:42px}}
+</style></head><body>
+<div class="shell">
+<aside class="panel"><div class="brand"><div class="badge" aria-hidden="true">✵</div>Central de<br>Ferramentas</div>
+<nav aria-label="Menu ilustrativo"><button style="--tone:#f4ff87"><span>⌂</span>Início</button><button style="--tone:#bc82ff"><span>▦</span>Ferramentas</button><button style="--tone:#39f3ff"><span>☆</span>Favoritos</button><button style="--tone:#ffa94e"><span>◷</span>Recentes</button></nav>
+<div class="signature">by Delta<strong>VICTOR</strong></div></aside>
+<main>
+<header class="panel"><div class="shield" aria-hidden="true">♢</div><div><h1>Central de Ferramentas</h1><p>Acesse todas as suas ferramentas de trabalho em um só lugar.</p></div><div class="actions"><button aria-label="Notificações ilustrativas">♧</button><button aria-label="Configurações ilustrativas">⚙</button></div></header>
+<div class="search"><span aria-hidden="true">⌕</span><input placeholder="Buscar ferramenta" aria-label="Busca ilustrativa" readonly></div>
+<section class="cards" aria-label="Prévia visual das ferramentas">
+<article class="panel hash"><div class="shield" aria-hidden="true">♢</div><h2>GERADOR DE HASH</h2><h3>COLETA, ORGANIZAÇÃO E INTEGRIDADE<br>DE PROVAS DIGITAIS</h3><p>Organize evidências digitais e registre códigos para verificar a integridade dos arquivos coletados.</p>
+<div class="formats"><div class="format" style="--tone:#3bdcff"><i>▣</i><span>Coletar <b>FOTOS</b></span></div><div class="format" style="--tone:#ca82ff"><i>▹</i><span>Coletar <b>VÍDEOS</b></span></div><div class="format" style="--tone:#ffb742"><i>♩</i><span>Coletar <b>ÁUDIOS</b></span></div><div class="format" style="--tone:#b2ff73"><i>▱</i><span>Coletar <b>DIVERSOS</b></span></div></div>
+<div class="gold"># &nbsp; MD5, SHA-256 e SHA-512</div><div class="details"><div>▱ &nbsp; Reúne os arquivos em um único ZIP</div><div>♧ &nbsp; Relatório de integridade</div><div>▤ &nbsp; Verificação posterior do HASH</div></div></article>
+<article class="panel tool" style="--edge:#28f4ff;--glow:#00d9ff55"><div class="intro"><span class="icon" aria-hidden="true">▤</span><div><h2>ORGANIZADOR DE BO</h2><p>Facilita a leitura e a compreensão e permite copiar com mais facilidade.</p></div></div><button class="primary">INICIAR</button></article>
+<article class="panel tool password"><div class="intro"><span class="icon" aria-hidden="true">⚿</span><div><h2>GERADOR DE SENHA FORTE</h2><p>Aumente a segurança, gere senhas fortes e seguras aleatoriamente.</p></div></div><button class="primary">GERAR AGORA</button></article>
+<article class="panel tool future"><div class="intro"><span class="icon" aria-hidden="true">▣</span><h2>EM DESENVOLVIMENTO</h2></div><div class="gold">Em breve</div></article>
+</section></main></div></body></html>
