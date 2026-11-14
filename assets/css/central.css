@@ -20,3 +20,128 @@
 .card-future-identity .card-icon,.card-future-identity h2{color:#ffbb7e}
 .card-future-identity .coming-pill{border-radius:20px;background:#533015;padding:7px 12px;border:1px solid #eeab65;display:inline-block}
 .reduce-glow .card-hash-identity,.reduce-glow .card-bo-identity,.reduce-glow .card-password-identity,.reduce-glow .card-future-identity{box-shadow:none}
+
+/* ===== DESIGN SYSTEM v2 — IDENTIDADES DE CARD (replica-design) ===== */
+:root {
+ --hash-accent:#33ebff;--hash-deep:#063956;--hash-glow:rgba(0,223,255,.75);
+ --bo-accent:#ffe19e;--bo-deep:#49300e;--bo-glow:rgba(255,195,70,.70);
+ --password-accent:#ffa4ff;--password-deep:#48116e;--password-glow:rgba(218,87,255,.75);
+ --future-accent:#ffbc69;--future-deep:#52290e;--future-glow:rgba(255,142,49,.72);
+ --focus:#fff7b4;
+}
+:where(.nav-item,.filter,.round-icon,.action-button,.mini-fav,.menu-button,.modal-ok,.modal-close,.catalog-card a,.catalog-card button):focus-visible {
+ outline:3px solid var(--focus);outline-offset:4px;
+}
+:where(.hash-panel,.feature-card){overflow:hidden;isolation:isolate}
+:where(.hash-panel,.feature-card)>*{position:relative;z-index:2}
+:where(.hash-panel,.feature-card)::after{
+ content:"";position:absolute;inset:7px;pointer-events:none;border-radius:17px;
+ border:1px solid rgba(255,255,255,.22);z-index:1;
+}
+/* A fotografia visual de cada cartão difere: textura, luz, saturação e contorno. */
+/* HASH — vidro azul elétrico e ciano, quatro cores nas ações */
+.card-hash-identity{
+ border:2px solid #41ebff;
+ background:
+ radial-gradient(ellipse at 51% -5%,rgba(24,250,255,.30),transparent 39%),
+ radial-gradient(ellipse at 95% 92%,rgba(0,120,255,.25),transparent 46%),
+ repeating-linear-gradient(145deg,transparent 0 24px,rgba(55,223,255,.035) 25px 26px),
+ linear-gradient(145deg,#061a35,#08243a 47%,#071322);
+ box-shadow:0 0 12px #22dfff,0 0 35px #00b6ff85,0 0 72px #00aeff2f,inset 0 0 38px #06c5ff3b;
+}
+.card-hash-identity h2{
+ color:#60f5ff;text-shadow:0 0 6px #09e9ff,0 0 25px #0abfff90;letter-spacing:.012em;
+}
+.card-hash-identity .hash-mark{color:#7cffff;filter:drop-shadow(0 0 8px #10f7ff) drop-shadow(0 0 15px #2fe5ff)}
+.card-hash-identity .hash-subtitle{color:#ecf9ff;text-shadow:0 0 9px #14c3ff7d}
+.card-hash-identity .hash-description{color:#dff5ff}
+.card-hash-identity .hash-feature{border-width:2px;box-shadow:0 0 12px currentColor,inset 0 0 22px #0005}
+.card-hash-identity .hash-feature.blue{background:linear-gradient(110deg,#072e68,#104ad0 83%);border-color:#35caff}
+.card-hash-identity .hash-feature.purple{background:linear-gradient(110deg,#2d0c64,#7f29cf 83%);border-color:#d37fff}
+.card-hash-identity .hash-feature.orange{background:linear-gradient(110deg,#4f2200,#c8680b 83%);border-color:#ffb548}
+.card-hash-identity .hash-feature.lime{background:linear-gradient(110deg,#143e20,#258b35 83%);border-color:#a2ff73}
+.card-hash-identity .hash-feature .feature-icon{filter:drop-shadow(0 0 6px currentColor)}
+.card-hash-identity .hash-detail{background:linear-gradient(100deg,#081b36,#15102f);border-color:#755aa3}
+.card-hash-identity .hash-algos{background:linear-gradient(105deg,#9b5f08,#fff2ac 45%,#e59d20);border:2px solid #ffe0a2;box-shadow:0 0 15px #ffd878aa,0 0 32px #ffc56155}
+/* BO — brasão dourado com azul petróleo, visual documental institucional */
+.card-bo-identity{
+ border:2px solid #ffdb81;
+ background:
+ radial-gradient(ellipse at 5% 1%,rgba(255,208,93,.35),transparent 39%),
+ radial-gradient(ellipse at 98% 95%,rgba(19,196,237,.22),transparent 49%),
+ linear-gradient(118deg,#3a2817,#14283d 60%,#0b1e35);
+ box-shadow:0 0 12px #ffd37b,0 0 34px #ebb34c9c,0 0 55px #00bceb24,inset 0 0 34px #f5b94330;
+}
+.card-bo-identity::before{
+ content:"";position:absolute;right:-52px;top:-69px;width:240px;height:240px;
+ border:2px solid #ffdf9140;border-radius:50%;background:radial-gradient(circle,#ffd67b21,transparent 72%);
+ box-shadow:0 0 38px #ffc76823;pointer-events:none;z-index:0;
+}
+.card-bo-identity::after{border-color:#ffdf9961}
+.card-bo-identity .card-icon{color:#ffe6a2;text-shadow:0 0 10px #ffcb61,0 0 22px #ffb951}
+.card-bo-identity h2{color:#ffe7a6;text-shadow:0 0 11px #ffce76,0 0 25px #d28e3448}
+.card-bo-identity p{color:#fff1d7}
+.card-bo-identity .action-button{
+ background:linear-gradient(100deg,#09c4e9,#3ef7fa 55%,#aafcff);
+ color:#061c28;box-shadow:0 0 14px #06e9ffbd,0 0 34px #00d3ec7b;letter-spacing:.03em;
+}
+.card-bo-identity .mini-fav{border-color:#e3bd6d;background:#3c2e20;color:#ffecb4}
+/* SENHAS — magenta ultravioleta, brilho e textura radial própria */
+.card-password-identity{
+ border:2px solid #ed87ff;
+ background:
+ radial-gradient(ellipse at 82% 9%,rgba(250,81,255,.44),transparent 37%),
+ radial-gradient(ellipse at 4% 100%,rgba(101,24,255,.30),transparent 44%),
+ linear-gradient(120deg,#330a49,#1b0e35 60%,#2b0a41);
+ box-shadow:0 0 12px #e86fff,0 0 37px #ba48ffb0,0 0 65px #a73cff42,inset 0 0 36px #d23aff38;
+}
+.card-password-identity::before{
+ content:"";position:absolute;width:230px;height:230px;right:-110px;bottom:-136px;
+ transform:rotate(45deg);border:2px solid #ffadff55;border-radius:35px;background:#bc40ff12;pointer-events:none;
+}
+.card-password-identity::after{border-color:#ffa7ff54}
+.card-password-identity .card-icon{color:#ffd2ff;text-shadow:0 0 10px #e463ff,0 0 23px #d862ff}
+.card-password-identity h2{color:#ffc5ff;text-shadow:0 0 12px #e65dff,0 0 27px #dd53ff63}
+.card-password-identity p{color:#fce4ff}
+.card-password-identity .coming-pill{
+ background:linear-gradient(95deg,#6c24b4,#cf55f2);color:#fff7ff;
+ border:1px solid #ecb0ff;box-shadow:0 0 13px #bf4fff8c;
+}
+.card-password-identity .action-button{
+ color:#fff5ff;background:linear-gradient(105deg,#7722c9,#cf4cf1);
+ box-shadow:0 0 14px #ce4bff99,0 0 26px #be43ff42;
+}
+/* FUTURAS — âmbar industrial, listras discretas e borda forte */
+.card-future-identity{
+ border:2px solid #ffa952;border-style:solid;
+ background:
+ repeating-linear-gradient(135deg,rgba(255,160,46,.055) 0 3px,transparent 3px 24px),
+ radial-gradient(ellipse at 80% 95%,rgba(255,115,8,.33),transparent 49%),
+ linear-gradient(125deg,#321705,#1b1321 60%,#351807);
+ box-shadow:0 0 11px #ffae56,0 0 33px #ff8d3d9e,0 0 65px #ff8d3b3c,inset 0 0 32px #f18d2931;
+}
+.card-future-identity::after{border:1px dashed #ffbe7a77}
+.card-future-identity .card-icon{color:#ffd493;text-shadow:0 0 12px #ff972a,0 0 26px #ff8a26}
+.card-future-identity h2{color:#ffc47e;text-shadow:0 0 12px #ff982d,0 0 23px #ff862a76}
+.card-future-identity p{color:#ffebcf}
+.card-future-identity .coming-pill.golden{
+ color:#2b1703;background:linear-gradient(100deg,#c87d22,#ffe3a0 55%,#df9b39);
+ border:2px solid #ffe3ab;box-shadow:0 0 17px #ffba6ba3,0 0 32px #f5a44651;
+ font-size:14px;padding:8px 20px;
+}
+/* O núcleo visual do portal também recebe brilho suficiente para equilibrar os cartões. */
+.sidebar{box-shadow:0 0 8px #af53ff,0 0 27px #a93cff6b,inset 0 0 23px #b852ff28}
+.topbar{border-color:#8e43c6;box-shadow:0 0 12px #9a4cf24d,inset 0 0 20px #ae4dff20}
+.heading-copy h1{text-shadow:0 0 8px #22eaff90,0 0 25px #06e8ff50}
+.search-wrap{box-shadow:0 0 11px #ff9e51a6,0 0 29px #ff9b4b42,inset 0 0 13px #ff9c2a19}
+.brand{filter:drop-shadow(0 0 6px #17e9ff5b)}
+/* User-controlled glare reduction should cover all newly enhanced elements. */
+.reduce-glow :is(.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity,.sidebar,.topbar,.search-wrap,.hash-algos,.hash-feature,.mini-fav,.action-button,.coming-pill){box-shadow:none!important;text-shadow:none!important;filter:none!important}
+.reduce-glow :is(.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity) h2,
+.reduce-glow :is(.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity) .card-icon,
+.reduce-glow .heading-copy h1{text-shadow:none!important}
+@media(max-width:640px){
+ .card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity{box-shadow:0 0 13px currentColor,inset 0 0 17px #ffffff14}
+ .card-bo-identity::before{width:160px;height:160px}
+}
+@media(prefers-reduced-motion:reduce){.card-hash-identity,.card-bo-identity,.card-password-identity,.card-future-identity{transition:none}}
