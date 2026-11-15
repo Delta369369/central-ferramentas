@@ -1,0 +1,63 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prévia — PROMT JURÍDICO</title><style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 5%,#123449,#071322 48%,#07101b);font:16px "Segoe UI",sans-serif;color:#e9faff}main{max-width:1100px;margin:auto;padding:35px 22px}a{color:#83ebed;text-decoration:none}.hero{margin:32px 0}h1{font-size:clamp(32px,5vw,50px);margin:0;color:#9df9e7;text-shadow:0 0 20px #21d6c150}p{color:#c1dfe7;line-height:1.5}.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{padding:24px;border:1px solid #4fb7be;border-radius:18px;background:#0a1c2c;box-shadow:0 0 18px #2dd7c822}.panel h2{margin:0 0 20px;font-size:21px;color:#a8f8ed}label{display:block;margin:16px 0 7px;font-weight:650}select,textarea,input{width:100%;padding:12px;color:#ecfaff;background:#061523;border:1px solid #426c7d;border-radius:9px;font:inherit}textarea{resize:vertical;line-height:1.5}.output{overflow-wrap:anywhere;min-height:420px;white-space:pre-wrap;color:#c7e5ed;background:#061523;border:1px solid #426c7d;border-radius:10px;padding:16px;line-height:1.6}.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}button{border:0;border-radius:10px;padding:12px 20px;background:linear-gradient(110deg,#37d4c3,#8af1bb);color:#062a2a;font:inherit;font-weight:750;cursor:pointer}button.secondary{background:#17384b;border:1px solid #548597;color:#dcf8f9}.note{font-size:13px;color:#aacbd4}.badge{display:inline-block;color:#8df5bc;background:#153b38;border:1px solid #397d68;border-radius:20px;padding:5px 10px;font-size:13px}@media(max-width:700px){.layout{grid-template-columns:1fr}.output{min-height:250px}}
+
+body{background:radial-gradient(ellipse at 8% 0%,#075a5d80,transparent 42%),radial-gradient(ellipse at 90% 100%,#073a5870,transparent 45%),repeating-linear-gradient(135deg,transparent 0 170px,#26dee408 171px 172px),#02141c}
+h1{background:linear-gradient(90deg,#66ff94,#00dfff);background-clip:text;-webkit-background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 10px #1effbb70)}
+.hero p{color:#98f6f3}
+.badge{background:#051c23;color:#8affdb;border-color:#28f4c1;box-shadow:0 0 12px #1fffe080}
+.panel{background:#031b24eF;border:1px solid #43e9e7;box-shadow:0 0 18px #00e6d436}
+.panel h2,label{color:#58f1ee}
+select,textarea,input,.output{background:#00141b;color:#c4fffa;border:1px solid #20dccc;box-shadow:0 0 10px #00dccc55}
+textarea::placeholder,input::placeholder{color:#9fb5b9;opacity:1}
+select:focus,textarea:focus,input:focus{outline:2px solid #a1ffe5;outline-offset:2px}
+button{background:linear-gradient(110deg,#20f581,#00cce9);box-shadow:0 0 15px #00e7c866;color:#042b29}
+button:disabled{opacity:.48;cursor:not-allowed}
+.note{color:#8edee1}
+
+body{background:radial-gradient(ellipse at 12% 8%,#063c6c99,transparent 42%),radial-gradient(ellipse at 85% 80%,#26065499,transparent 45%),repeating-linear-gradient(135deg,transparent 0 175px,#0786e615 176px 177px),#031027}
+h1{font-style:italic;background:linear-gradient(100deg,#93faff,#08d4ff 45%,#ffe52f 70%,#ff9816);background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 9px #06d8ff88)}
+.hero p{color:#eef8ff}.badge{border-color:#4aeaff;box-shadow:0 0 10px #18ddff77}
+.panel{border:2px solid #19dfff;background:linear-gradient(145deg,#06192b,#06112b);box-shadow:0 0 9px #10e7ff,0 0 22px #1179fa55}
+.panel:nth-child(2){border-color:#e44dff;box-shadow:0 0 9px #de43ff,0 0 22px #a51dff66}
+.panel h2{padding:12px 15px;border-radius:12px;color:#efffff;background:linear-gradient(100deg,#0759bf,#003f5c);box-shadow:0 0 12px #08d5f966}
+.panel:nth-child(2) h2{background:linear-gradient(100deg,#9714da,#211052);box-shadow:0 0 12px #db27ff88}
+label{color:#eff7ff}
+select,input{background:#06243e;border-color:#21e7f3;box-shadow:0 0 12px #00dffb88;color:#fff}
+textarea{background:#100d2c;border:2px solid #dd4bff;box-shadow:-3px 2px 12px #ffab0066,3px 0 14px #d22dff88;color:#fff}
+.output{background:linear-gradient(150deg,#00182b,#10083b);border:2px solid #1af4df;box-shadow:0 0 15px #04dffb88;color:#eafcff}
+textarea::placeholder,input::placeholder{color:#b9c2ca}
+#gerar{background:linear-gradient(110deg,#ffdc00,#ff7a00 65%,#ff4141);color:#1d1003;box-shadow:0 0 15px #ff9100aa}
+#copiar{background:linear-gradient(110deg,#3aff83,#00c9ff);color:#052222;box-shadow:0 0 15px #05eec1aa}
+.note{color:#d9e6ff}
+</style></head><body><main><a href="../../">← Voltar à Central</a><div class="hero"><h1>PROMT JURÍDICO</h1><p>Descreva sua necessidade jurídica para preparar um prompt pronto para copiar.</p></div><div class="layout"><section class="panel"><h2>Descreva sua solicitação jurídica</h2><label for="funcao">Cargo ou função</label><select id="funcao"><option value="">Selecione uma função</option><option>Advogado(a)</option><option>Advocacia Pública</option><option>Defensor(a) público(a)</option><option>Magistrado(a)</option><option>Membro do Ministério Público</option><option>Delegado(a) de Polícia</option><option>Servidor(a) policial</option><option>Serventuário(a) da Justiça</option><option>Assessor(a) jurídico(a)</option><option>Conciliador(a) ou mediador(a)</option><option>Perito(a)</option><option>Tabelião(ã) ou registrador(a)</option><option>Professor(a) ou pesquisador(a) de Direito</option><option>Estudante de Direito</option><option value="outra">Outra função</option></select><div id="outraFuncaoGrupo" hidden><label for="outraFuncao">Descreva sua função</label><input id="outraFuncao" type="text" placeholder="Informe seu cargo ou função"></div><label for="areaDireito">Área do Direito</label><select id="areaDireito"><option value="">Selecione uma área</option><option>Constitucional</option><option>Administrativo</option><option>Tributário</option><option>Penal</option><option>Processual Penal</option><option>Civil</option><option>Processual Civil</option><option>Família e Sucessões</option><option>Trabalhista</option><option>Previdenciário</option><option>Empresarial</option><option>Consumidor</option><option>Ambiental</option><option>Eleitoral</option><option value="outra">Outra área</option></select><div id="outraAreaGrupo" hidden><label for="outraArea">Descreva a área</label><input id="outraArea" type="text" placeholder="Informe a área do Direito"></div><label for="contexto">Contexto e informações</label><textarea id="contexto" rows="12" placeholder="Ex. 1: Preciso analisar um contrato de prestação de serviços e identificar cláusulas que mereçam revisão.&#10;&#10;Ex. 2: Analise os documentos em anexo para elaborar uma contestação, considerando os fatos e fundamentos pertinentes."></textarea><div class="actions"><button type="button" id="gerar">Gerar</button></div></section><section class="panel"><h2>Prompt pronto</h2><div class="output" id="resultado" role="region" aria-live="polite">Seu prompt aparecerá aqui após o preenchimento dos campos.</div><div class="actions"><button type="button" id="copiar" disabled>Copiar prompt</button></div><p class="note">Revise o texto antes de utilizá-lo.</p></section></div></main><script>
+const contexto=document.getElementById("contexto");
+const resultado=document.getElementById("resultado");
+const copiar=document.getElementById("copiar");
+document.getElementById("funcao").addEventListener("change",event=>{
+ document.getElementById("outraFuncaoGrupo").hidden=event.target.value!=="outra";
+});
+document.getElementById("areaDireito").addEventListener("change",event=>{
+ document.getElementById("outraAreaGrupo").hidden=event.target.value!=="outra";
+});
+document.getElementById("gerar").addEventListener("click",()=>{
+ const texto=contexto.value.trim();
+ const areaSelecionada=document.getElementById("areaDireito").value;
+ const area=areaSelecionada==="outra"?document.getElementById("outraArea").value.trim():areaSelecionada;
+ const selecionada=document.getElementById("funcao").value;
+ const funcao=selecionada==="outra"?document.getElementById("outraFuncao").value.trim():selecionada;
+ if(!funcao){resultado.textContent="Selecione seu cargo ou função para orientar o prompt.";copiar.disabled=true;(selecionada==="outra"?document.getElementById("outraFuncao"):document.getElementById("funcao")).focus();return}
+ if(!area){resultado.textContent="Selecione a área do Direito para orientar o prompt.";copiar.disabled=true;(areaSelecionada==="outra"?document.getElementById("outraArea"):document.getElementById("areaDireito")).focus();return}
+ if(!texto){resultado.textContent="Descreva sua solicitação no campo ao lado para gerar o prompt.";copiar.disabled=true;contexto.focus();return}
+ resultado.textContent="Atue como assessor jurídico para a função de "+funcao+". Considere a área jurídica informada: "+area+". Analise a solicitação abaixo considerando os fatos e documentos apresentados.\n\nSOLICITAÇÃO E CONTEXTO\n"+texto+"\n\nORIENTAÇÕES\n- Responda de forma clara, objetiva e adequada à função informada e à solicitação.\n- Diferencie fatos informados, fundamentos e hipóteses. Não invente informações ou fontes.\n- Aponte lacunas e inconsistências relevantes quando existirem.\n- Ao citar normas, indique com precisão os dispositivos aplicáveis.\n- Escreva nomes de pessoas em CAIXA ALTA.\n- Organize a resposta no formato mais adequado à solicitação.";
+ copiar.disabled=false;
+});
+copiar.addEventListener("click",async()=>{
+ const texto=resultado.textContent;
+ try{await navigator.clipboard.writeText(texto);copiar.textContent="Copiado"}
+ catch{
+  const campo=document.createElement("textarea");campo.value=texto;document.body.append(campo);campo.select();
+  let sucesso=false;try{sucesso=document.execCommand("copy")}finally{campo.remove()} copiar.textContent=sucesso?"Copiado":"Selecione e copie o texto";
+ }
+ setTimeout(()=>{copiar.textContent="Copiar prompt"},2500);
+});
+</script></body></html>
