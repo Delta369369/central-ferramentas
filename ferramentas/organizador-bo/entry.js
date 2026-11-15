@@ -36,30 +36,7 @@ window.BoTransfer = {
  }
 };
 
-const boButton=document.getElementById("selectBo");
-const boPicker=document.createElement("input");
-boPicker.type="file";
-boPicker.accept=".pdf,.txt,.text,.docx,.html,.htm,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-boPicker.hidden=true;
-document.body.append(boPicker);
-const boStatus=document.createElement("p");
-boStatus.setAttribute("role","status");
-boStatus.style.fontSize="14px";
-boButton.after(boStatus);
-boButton.addEventListener("click",()=>{
- boPicker.value="";
- boPicker.click();
+const boButton = document.getElementById("selectBo");
+boButton.addEventListener("click", () => {
+  location.href = "./ferramentas/organizador-bo/";
 });
-boPicker.addEventListener("change",async()=>{
- if(!boPicker.files.length)return;
- boButton.disabled=true;
- boStatus.textContent="Abrindo o Leitor de B.O.…";
- try{
-  const token=await BoTransfer.send([boPicker.files[0]],"bo");
-  location.href="./ferramentas/organizador-bo/?selection="+encodeURIComponent(token);
- }catch{
-  boStatus.textContent="Não foi possível transferir o arquivo. Abra o Leitor de B.O. pelo link abaixo e anexe o documento.";
-  boButton.disabled=false;
- }
-});
-window.addEventListener("pageshow",()=>{boButton.disabled=false;boStatus.textContent=""});
