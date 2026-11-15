@@ -1,0 +1,110 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Imagens para PDF</title><style>
+*{box-sizing:border-box}body{margin:0;background:#071321;color:#e9fbff;font:16px "Segoe UI",sans-serif}main{max-width:1100px;margin:auto;padding:28px 20px}h1{color:#8af9df;margin:0 0 8px}p{color:#badce6;line-height:1.5}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}button,.pick{border:1px solid #68e4e8;border-radius:10px;padding:11px 16px;background:#10354b;color:#e9ffff;font:inherit;font-weight:700;cursor:pointer}.pick{background:#147b58}.primary{background:#98f4b5;color:#09241b}.toolbar button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,.pick:focus-within{outline:3px solid #fff;outline-offset:3px}#images{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.item{min-width:0;background:#0d2437;border:1px solid #467f92;border-radius:14px;padding:12px}.thumb{height:190px;background:#fff;border-radius:8px;display:grid;place-items:center;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:contain}.name{overflow-wrap:anywhere;color:#d6f6ff;font-size:14px}.controls{display:flex;gap:7px;flex-wrap:wrap}.controls button{padding:7px 9px;font-size:13px}.status{min-height:24px}label.settings{display:inline-flex;align-items:center;gap:8px;margin:4px 15px 10px 0}select{padding:8px;background:#102d41;color:#fff;border:1px solid #62889b;border-radius:7px}small{color:#badce6}dialog{width:min(90vw,900px);max-height:90vh;border:1px solid #68e4e8;border-radius:14px;background:#102738;color:#fff}dialog::backdrop{background:#000b}.crop-area{position:relative;display:inline-block;max-width:100%;touch-action:none;line-height:0}.crop-area img{display:block;max-width:100%;max-height:65vh}.crop-selection{position:absolute;border:2px solid #8bffad;background:#4fff7c22;box-shadow:0 0 0 9999px #0008;pointer-events:none}.crop-wrap{overflow:hidden;text-align:center}.crop-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+/* Aparência clara inspirada na referência */
+body{background:#f5f7fb;color:#202a30;font-family:"Segoe UI",sans-serif}
+main{max-width:1200px;margin:28px auto;padding:36px;background:#fff;border:3px solid transparent;border-radius:20px;background-image:linear-gradient(#fff,#fff),linear-gradient(125deg,#18c9e8,#6048e9 60%,#f052ba);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:-6px -5px 20px #32cdec70,7px 8px 22px #d43fc660}
+h1{font-size:clamp(34px,5vw,58px);font-weight:850;letter-spacing:-1px;background:linear-gradient(100deg,#09bddd,#5142e7,#c126a0);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 3px #9b61d680)}
+p,small{color:#303a40}
+.toolbar{gap:12px;margin:28px 0}
+button,.pick,.primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:1px solid #137b43;border-radius:10px;padding:11px 18px;background:#087334;color:white;font:inherit;font-weight:750;box-shadow:0 4px 12px #118a4840;cursor:pointer}
+button:hover:not(:disabled),.pick:hover{background:#075c2c}
+button:focus-visible,.pick:focus-within{outline:3px solid #4738e2;outline-offset:3px}
+.toolbar button:disabled{background:#769986;border-color:#769986;color:#fff;opacity:.65}
+label.settings{color:#202a30;font-weight:600}
+select{padding:10px;background:#f0f4f6;color:#202a30;border:1px solid #9eabb1;border-radius:8px}
+.status{color:#374b55}
+.item{background:#f8fbfd;border:1px solid #c3d3da;box-shadow:0 3px 12px #304d5a18}
+.thumb{border:1px solid #d9e2e6}
+.name{color:#24383f}
+.controls button{background:#fff;color:#11693b;border-color:#8db8a0;box-shadow:none}
+.controls button:disabled{opacity:.45;cursor:not-allowed}
+dialog{background:#fff;color:#202a30;border:2px solid #7454d5}
+dialog p{color:#34434a}
+dialog button{background:#087334;color:#fff}
+@media(max-width:600px){main{margin:12px;padding:22px}.toolbar>*{width:100%}}
+</style><style>.back-link{display:inline-block;margin-bottom:20px;color:#17617c;font-weight:650;text-decoration:none}.back-link:hover{text-decoration:underline}</style></head><body><main>
+<a href="../../" class="back-link">← Voltar à Central</a><h1>Imagens para PDF</h1><p>Selecione imagens, confira a ordem e gere um PDF com uma imagem por página.</p>
+<div class="toolbar"><label class="pick">Selecionar imagens<input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple hidden></label><button id="clear" disabled>Limpar lista</button><button class="primary" id="generate" disabled>Gerar PDF</button></div>
+<label class="settings">Página <select id="page"><option value="a4">A4</option><option value="letter">Carta</option></select></label><label class="settings">Orientação <select id="orientation"><option value="auto">Automática</option><option value="portrait">Retrato</option><option value="landscape">Paisagem</option></select></label><label class="settings">Margem <select id="margin"><option value="10">10 mm</option><option value="0">Sem margem</option><option value="20">20 mm</option></select></label>
+<p class="status" id="status" role="status" aria-live="polite">Nenhuma imagem selecionada.</p><div id="images"></div><p><small>As imagens são processadas neste navegador.</small></p>
+</main><dialog id="cropDialog"><h2>Recortar imagem</h2><p>Arraste sobre a imagem para marcar a área que deseja manter.</p><div class="crop-wrap"><div class="crop-area" id="cropArea"><img id="cropImage" alt="Imagem para recorte"><div class="crop-selection" id="cropSelection" hidden></div></div></div><div class="crop-actions"><button id="applyCrop" type="button" disabled>Aplicar recorte</button><button id="resetCrop" type="button">Usar imagem inteira</button><button id="cancelCrop" type="button">Cancelar</button></div></dialog><script src="../conversor-txt-pdf/jspdf.umd.min.js"></script><script>
+const input=document.getElementById("files"),list=document.getElementById("images"),status=document.getElementById("status"),generate=document.getElementById("generate"),clear=document.getElementById("clear");
+let items=[],busy=false;
+function render(){
+ list.replaceChildren();
+ items.forEach((item,index)=>{
+  const card=document.createElement("article");card.className="item";
+  const thumb=document.createElement("div");thumb.className="thumb";
+  const image=document.createElement("img");image.src=item.url;image.alt="Prévia de "+item.file.name;thumb.append(image);
+  const name=document.createElement("p");name.className="name";name.textContent=(index+1)+". "+item.file.name;
+  const controls=document.createElement("div");controls.className="controls";
+  for(const [label,disabled,action] of [["↑ Subir",index===0,()=>move(index,-1)],["↓ Descer",index===items.length-1,()=>move(index,1)],["✂ Recortar",false,()=>openCrop(index)],["Excluir",false,()=>remove(index)]]){
+   const b=document.createElement("button");b.type="button";b.textContent=label;b.disabled=disabled||busy;b.addEventListener("click",action);controls.append(b);
+  }
+  card.append(thumb,name,controls);list.append(card);
+ });
+ generate.disabled=busy||!items.length;clear.disabled=busy||!items.length;input.disabled=busy;
+}
+function move(index,direction){const target=index+direction;if(target<0||target>=items.length)return;[items[index],items[target]]=[items[target],items[index]];render()}
+function remove(index){URL.revokeObjectURL(items[index].url);items.splice(index,1);status.textContent=items.length?items.length+" imagem(ns) selecionada(s).":"Nenhuma imagem selecionada.";render()}
+input.addEventListener("change",()=>{
+ let rejected=0;
+ for(const file of input.files){if(!["image/jpeg","image/png","image/webp"].includes(file.type)){rejected++;continue}items.push({file,url:URL.createObjectURL(file)})}
+ status.textContent=items.length+" imagem(ns) selecionada(s)."+(rejected?" "+rejected+" arquivo(s) ignorado(s); use JPG, PNG ou WebP.":"");
+ input.value="";render();
+});
+clear.addEventListener("click",()=>{items.forEach(item=>URL.revokeObjectURL(item.url));items=[];status.textContent="Nenhuma imagem selecionada.";render()});
+
+const cropDialog=document.getElementById("cropDialog"),cropArea=document.getElementById("cropArea"),cropImage=document.getElementById("cropImage"),cropSelection=document.getElementById("cropSelection"),applyCrop=document.getElementById("applyCrop");
+let cropIndex=null,cropStart=null,cropRect=null;
+function showCrop(rect){
+ cropSelection.hidden=!rect;
+ if(!rect)return;
+ cropSelection.style.left=(rect.x*100)+"%";cropSelection.style.top=(rect.y*100)+"%";
+ cropSelection.style.width=(rect.w*100)+"%";cropSelection.style.height=(rect.h*100)+"%";
+}
+function openCrop(index){cropIndex=index;cropRect=items[index].crop||null;cropStart=null;cropImage.src=items[index].url;showCrop(cropRect);applyCrop.disabled=!cropRect;cropDialog.showModal()}
+function cropPoint(event){const r=cropImage.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(event.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(event.clientY-r.top)/r.height))}}
+cropArea.addEventListener("pointerdown",event=>{event.preventDefault();cropStart=cropPoint(event);cropRect=null;applyCrop.disabled=true;showCrop(null);cropArea.setPointerCapture(event.pointerId)});
+cropArea.addEventListener("pointermove",event=>{if(!cropStart)return;const end=cropPoint(event);cropRect={x:Math.min(cropStart.x,end.x),y:Math.min(cropStart.y,end.y),w:Math.abs(end.x-cropStart.x),h:Math.abs(end.y-cropStart.y)};showCrop(cropRect)});
+cropArea.addEventListener("pointerup",()=>{cropStart=null;applyCrop.disabled=!cropRect||cropRect.w<.01||cropRect.h<.01});
+cropArea.addEventListener("pointercancel",()=>{cropStart=null;cropRect=null;applyCrop.disabled=true;showCrop(null)});
+applyCrop.addEventListener("click",()=>{if(cropIndex===null||!cropRect)return;items[cropIndex].crop={...cropRect};cropDialog.close();status.textContent="Recorte aplicado. A imagem original foi preservada.";render()});
+document.getElementById("resetCrop").addEventListener("click",()=>{if(cropIndex===null)return;delete items[cropIndex].crop;cropDialog.close();status.textContent="Imagem inteira selecionada.";render()});
+document.getElementById("cancelCrop").addEventListener("click",()=>cropDialog.close());
+function loadImage(url){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error("Não foi possível abrir uma imagem."));img.src=url})}
+generate.addEventListener("click",async()=>{
+ if(!items.length||busy)return;
+ let destination=null;
+ try{
+  if(window.showSaveFilePicker)destination=await window.showSaveFilePicker({suggestedName:"imagens.pdf",types:[{description:"Documento PDF",accept:{"application/pdf":[".pdf"]}}]});
+  busy=true;render();status.textContent="Preparando PDF…";
+  if(!window.jspdf)throw new Error("Biblioteca de PDF não encontrada.");
+  let pdf=null;
+  for(let i=0;i<items.length;i++){
+   status.textContent="Preparando imagem "+(i+1)+" de "+items.length+"…";
+   const img=await loadImage(items[i].url);
+   const orientation=document.getElementById("orientation").value;
+   const crop=items[i].crop||{x:0,y:0,w:1,h:1};
+   const sourceX=Math.round(crop.x*img.naturalWidth),sourceY=Math.round(crop.y*img.naturalHeight);
+   const sourceWidth=Math.max(1,Math.min(img.naturalWidth-sourceX,Math.round(crop.w*img.naturalWidth)));
+   const sourceHeight=Math.max(1,Math.min(img.naturalHeight-sourceY,Math.round(crop.h*img.naturalHeight)));
+   const direction=orientation==="auto"?(sourceWidth>sourceHeight?"landscape":"portrait"):orientation;
+   const format=document.getElementById("page").value;
+   if(!pdf)pdf=new window.jspdf.jsPDF({orientation:direction,unit:"mm",format,compress:true});
+   else pdf.addPage(format,direction);
+   const margin=Number(document.getElementById("margin").value),pageWidth=pdf.internal.pageSize.getWidth(),pageHeight=pdf.internal.pageSize.getHeight();
+   const scale=Math.min((pageWidth-2*margin)/sourceWidth,(pageHeight-2*margin)/sourceHeight);
+   const width=sourceWidth*scale,height=sourceHeight*scale;
+   const canvas=document.createElement("canvas");canvas.width=sourceWidth;canvas.height=sourceHeight;
+   const ctx=canvas.getContext("2d");if(!ctx)throw new Error("Não foi possível preparar a imagem.");ctx.drawImage(img,sourceX,sourceY,sourceWidth,sourceHeight,0,0,sourceWidth,sourceHeight);
+   pdf.addImage(canvas.toDataURL("image/png"),"PNG",(pageWidth-width)/2,(pageHeight-height)/2,width,height);
+  }
+  const blob=pdf.output("blob");
+  if(destination){const writer=await destination.createWritable();await writer.write(blob);await writer.close()}
+  else{const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="imagens.pdf";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+  status.textContent="PDF gerado com "+items.length+" página(s).";
+ }catch(error){if(error.name!=="AbortError"){console.error(error);status.textContent="Falha ao gerar o PDF: "+error.message}}
+ finally{busy=false;render()}
+});render();
+</script></body></html>
