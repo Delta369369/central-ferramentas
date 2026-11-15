@@ -383,7 +383,7 @@ function structuredBO(input,roles){
   if(start>=0){for(let i=start+1;i<Math.min(lines.length,start+6);i++){const d=lines[i].match(/^Data\.*\s*:\s*(\d{2}\/\d{2}\/\d{4})\s+Hora\.*\s*:\s*(\d{2}:\d{2})/i);if(d){factDate=d[1]+' às '+d[2];break;}}}
  }
  const parties=qualifyParties(clean,roles);
- return {structured,number,nature:normalizeCase(nature).replace(/(?<![\p{L}\p{N}])ato\s+obsceno(?![\p{L}\p{N}])/giu,'ATO OBSCENO'),factDate,parties,paragraphs:paragraphize(rawHistory).map(text=>uppercasePersonNames(text,roles,clean))};
+ return {structured,number,nature:nature.toLocaleUpperCase('pt-BR'),factDate,parties,paragraphs:paragraphize(rawHistory).map(text=>uppercasePersonNames(text,roles,clean))};
 }
 // Mantida para testes automatizados e exportação simples.
 function textFormat(input){return structuredBO(input,identifyParties(input)).paragraphs.join('\n\n');}
