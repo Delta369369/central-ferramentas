@@ -53,12 +53,12 @@ boButton.addEventListener("click",()=>{
 boPicker.addEventListener("change",async()=>{
  if(!boPicker.files.length)return;
  boButton.disabled=true;
- boStatus.textContent="Abrindo o Organizador de BO…";
+ boStatus.textContent="Abrindo o Leitor de B.O.…";
  try{
   const token=await BoTransfer.send([boPicker.files[0]],"bo");
   location.href="./ferramentas/organizador-bo/?selection="+encodeURIComponent(token);
  }catch{
-  boStatus.textContent="Não foi possível transferir o arquivo. Abra o Organizador pelo link abaixo e anexe o documento.";
+  boStatus.textContent="Não foi possível transferir o arquivo. Abra o Leitor de B.O. pelo link abaixo e anexe o documento.";
   boButton.disabled=false;
  }
 });

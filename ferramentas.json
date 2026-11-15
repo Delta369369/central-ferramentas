@@ -1,7 +1,7 @@
 [
   {
     "id": "organizador-bo",
-    "nome": "Organizador de BO",
+    "nome": "Leitor de B.O.",
     "descricao": "Formate e organize boletins de ocorrência. Leitura local de PDFs digitais, inclusive documentos com marcas transversais UUID.",
     "categoria": "Policial",
     "simbolo": "▤",
