@@ -21,17 +21,38 @@ window.HashTransfer = {
   } finally {db.close()}
  },
  async receive() {
-  const token=new URLSearchParams(location.search).get("selection");
-  if(!token)return null;
-  const db=await this.open();
+  const token = new URLSearchParams(location.search).get("selection");
+  if (!token) return null;
+  const db = await this.open();
   try {
-   return await new Promise((resolve,reject)=>{
-    const tx=db.transaction("batches","readwrite"),store=tx.objectStore("batches");
-    const request=store.get(token);let batch=null;
-    request.onsuccess=()=>{batch=request.result;store.delete(token)};
-    tx.oncomplete=()=>{history.replaceState(null,"",location.pathname);resolve(batch)};
-    tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error);
+   const batch = await new Promise((resolve, reject) => {
+    const tx = db.transaction("batches", "readonly");
+    const request = tx.objectStore("batches").get(token);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+    tx.onabort = () => reject(tx.error);
    });
-  } finally {db.close()}
+   if (!batch) return null;
+   // Materializa os dados antes de remover a cópia temporária do navegador.
+   const files = [];
+   for (const file of batch.files) {
+    const bytes = await file.arrayBuffer();
+    files.push(new File([bytes], file.name, {
+     type: file.type,
+     lastModified: file.lastModified
+    }));
+   }
+   await new Promise((resolve, reject) => {
+    const tx = db.transaction("batches", "readwrite");
+    tx.objectStore("batches").delete(token);
+    tx.oncomplete = resolve;
+    tx.onabort = () => reject(tx.error);
+    tx.onerror = () => reject(tx.error);
+   });
+   history.replaceState(null, "", location.pathname);
+   return { ...batch, files };
+  } finally {
+   db.close();
+  }
  }
 };
