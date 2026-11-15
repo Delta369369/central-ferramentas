@@ -60,7 +60,24 @@ main{height:auto;min-height:0;overflow:visible}
 .development-status{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:auto;padding:12px;border:1px solid currentColor;border-radius:12px;color:var(--accent);font-size:16px}
 @media(max-width:1050px) and (min-width:701px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hash-reference{grid-row:span 2}}
 @media(max-width:700px){.cards{grid-template-columns:1fr}.card{grid-row:auto!important;grid-column:auto!important;width:100%!important}.topbar nav{flex-wrap:wrap;gap:15px}.result-row{flex-wrap:wrap}.result-row input{flex:1 1 180px}}
-</style><style>#passwordResult{background:#fff;color:#152536;color-scheme:light}#passwordResult::placeholder{color:#596776;opacity:1}</style><style>#selectBo{cursor:pointer}#selectBo:disabled{opacity:.6;cursor:wait}.bo-direct-link{align-self:center;color:#9beaff;font-size:14px}</style><style>
+</style><style>#passwordResult{background:#fff;color:#152536;color-scheme:light}#passwordResult::placeholder{color:#596776;opacity:1}</style><style>.card #selectBo{
+  margin:18px 0 0;
+  align-self:center;
+  width:min(100%,320px);
+  min-height:52px;
+  border:1px solid #8ffcff;
+  border-radius:14px;
+  background:linear-gradient(110deg,#087d9c,#18c7c4 55%,#0a91b1)!important;
+  color:#041e29!important;
+  font-weight:800;
+  letter-spacing:.06em;
+  box-shadow:0 0 6px #67f8ff,0 0 20px #16c9e166,inset 0 1px #ffffff88;
+  cursor:pointer!important;
+  transition:filter .16s,box-shadow .16s,transform .16s;
+}
+.card #selectBo:hover{filter:brightness(1.13);box-shadow:0 0 9px #b2ffff,0 0 26px #23e3f788}
+.card #selectBo:active{transform:translateY(1px)}
+.card #selectBo:focus-visible{outline:3px solid white;outline-offset:4px}#selectBo:disabled{opacity:.6;cursor:wait}.bo-direct-link{align-self:center;color:#9beaff;font-size:14px}</style><style>
 .password-options{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px 12px;width:100%;margin:0 0 12px;text-align:left;font-size:13px}
 .password-options input[type=number]{width:75px;padding:7px;border:1px solid #7293a2;border-radius:7px;background:#071623;color:#ecfaff}
 .password-options .checks{display:flex;flex-wrap:wrap;gap:7px 12px}
