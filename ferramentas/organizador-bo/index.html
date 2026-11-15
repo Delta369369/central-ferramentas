@@ -23,12 +23,12 @@
 
 .result p:last-child{margin-bottom:5px}
 </style></head><body>
-<header class="top"><div class="brand"><div class="logo"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg></div><div class="brand-rule"></div><div><h1>ORGANIZADOR DE TEXTO OFFLINE<br><span>para BOs em CAIXA ALTA</span></h1><p>Formatação de textos com capitalização normal e parágrafos organizados.</p></div></div><div class="offline"><strong>◉ 100% OFFLINE</strong><small>Processamento local e privado</small></div></header>
+<a href="../../" style="display:block;padding:12px 24px;color:#9beaff;background:#10162c;text-decoration:none">← Voltar à Central de Ferramentas</a><header class="top"><div class="brand"><div class="logo"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg></div><div class="brand-rule"></div><div><h1>ORGANIZADOR DE TEXTO OFFLINE<br><span>para BOs em CAIXA ALTA</span></h1><p>Formatação de textos com capitalização normal e parágrafos organizados.</p></div></div><div class="offline"><strong>◉ 100% OFFLINE</strong><small>Processamento local e privado</small></div></header>
 <div class="shell"><nav class="side" aria-label="Navegação"><button class="nav-btn active" data-view="principal">⌂ &nbsp; Principal</button><button class="nav-btn" data-view="instrucoes">▤ &nbsp; Instruções</button><button class="nav-btn" data-view="sobre">ⓘ &nbsp; Sobre</button><div class="side-bottom"><span class="shield">⬡</span>Sem envio de dados<br>para a internet</div></nav><main class="main file-drop" id="dropZone">
 <div class="view active" id="principal"><div class="toolbar section"><label class="file-btn"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.6l-9.3 9.3a5 5 0 0 1-7.1-7.1L15.3 3.1a3.5 3.5 0 0 1 5 5L9.6 18.8a2 2 0 0 1-2.8-2.8l9.1-9.1"/></svg><span>Anexar arquivo</span><input id="file" type="file" accept=".pdf,.txt,.text,.docx,.html,.htm,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-label="Anexar arquivo PDF digital, TXT ou DOCX"></label><span id="fileMeta" class="file-meta">PDF digital, TXT ou DOCX · arraste e solte aqui</span><label class="check"><input type="checkbox" id="separar" checked> Separar automaticamente em parágrafos</label></div>
 <section class="card section"><div class="card-title"><h2><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg> Texto original</h2><small id="originalN">0 caracteres</small></div><textarea class="editor" id="original" spellcheck="false" placeholder="Cole aqui o texto do BO ou anexe um arquivo..."></textarea><div class="hint">O conteúdo do arquivo será exibido aqui. Para PDF, é necessário que o texto seja selecionável.</div></section>
-<div class="mid"><div class="opts" role="group" aria-label="Capitalização do texto"><strong>Formatação do texto:</strong><label><input type="radio" name="modo" value="frases" checked> Iniciais das frases</label><label><input type="radio" name="modo" value="palavras"> Iniciais das palavras</label><label><input type="checkbox" id="siglas" checked> Preservar siglas</label></div><button class="btn btn-format" id="format">✧ &nbsp; Formatar texto</button></div>
-<section class="result-card"><div class="card-title"><h2><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg> Texto formatado · edição livre</h2><small id="resultN">0 caracteres</small></div><div class="editor result" id="result" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="true" data-placeholder="O BO será exibido aqui em seções, com identificação das partes, dados da ocorrência e narrativa organizada. Você poderá editar o resultado diretamente neste campo."></div></section>
+<div class="mid"><div class="opts" role="group" aria-label="Capitalização do texto"><strong>Formatação do texto:</strong><label><input type="radio" name="modo" value="frases" checked> Iniciais das frases</label><label><input type="radio" name="modo" value="palavras"> Iniciais das palavras</label><label><input type="checkbox" id="siglas" checked> Preservar siglas</label><label><input type="checkbox" id="nomesMaiusculos" checked> Nomes de pessoas em CAIXA ALTA</label></div><button class="btn btn-format" id="format">✧ &nbsp; Formatar texto</button></div>
+<div class="section" style="margin-bottom:16px"><label for="nomesExtras">Outros nomes ou formas abreviadas, um por linha (opcional)</label><textarea id="nomesExtras" rows="2" style="display:block;width:100%;margin-top:7px;padding:10px;background:#101a30;color:#fff;border:1px solid #64738a;border-radius:8px" placeholder="Inclua aqui nomes citados apenas na narrativa."></textarea><small>Os nomes completos identificados nas qualificações são reconhecidos automaticamente. Informe aqui outras formas, como primeiro nome ou apelido.</small></div><section class="result-card"><div class="card-title"><h2><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg> Texto formatado · edição livre</h2><small id="resultN">0 caracteres</small></div><div class="editor result" id="result" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="true" data-placeholder="O BO será exibido aqui em seções, com identificação das partes, dados da ocorrência e narrativa organizada. Você poderá editar o resultado diretamente neste campo."></div></section>
 <div class="actions"><button class="btn copy" id="copy">▣ &nbsp; Copiar texto</button><button class="btn save" id="save">↓ &nbsp; Salvar (.txt)</button><button class="btn clear" id="clear">♧ &nbsp; Limpar tudo</button></div><div class="status" role="status" aria-live="polite" id="status"></div><div class="footer">Processamento local, sem envio de documentos à internet · Sem análise jurídica · PDFs escaneados exigem OCR e não são lidos nesta versão.</div></div>
 <div class="view" id="instrucoes"><div class="info"><h2>Como usar</h2><ol><li>Clique em <b>Anexar arquivo</b> para carregar PDF digital, DOCX ou TXT; também é possível colar o texto no campo superior.</li><li>Escolha como as letras devem aparecer. O padrão é <b>inicial maiúscula de cada frase</b>.</li><li>Clique em <b>Formatar texto</b> e confira o resultado no campo inferior.</li><li>Copie o texto ou salve um arquivo TXT. O resultado pode ser editado antes de copiar.</li></ol><p>As identificações de <b>COMUNICANTE, VÍTIMA, SUSPEITO e TESTEMUNHA</b> aparecem antes do texto quando essas funções e os nomes estão explicitamente indicados no documento. Não são deduzidas a partir da narrativa.</p><p>O leitor PDF desta página suporta arquivos digitais com texto extraível. Documentos escaneados ou protegidos podem não ser extraídos.</p></div></div>
 <div class="view" id="sobre"><div class="info"><h2>Sobre a ferramenta</h2><p>Este organizador ajusta a apresentação textual de boletins de ocorrência, inclusive capitalização e espaçamento entre parágrafos. O conteúdo é processado <span class="highlight">localmente no navegador</span>, sem depender de servidor e sem enviar arquivos para a internet.</p><p>O programa não verifica fatos, não faz análise jurídica e não atribui papéis às pessoas por inferência. Confira nomes próprios, datas, números e a extração de documentos antes de usar.</p></div></div>
@@ -306,14 +306,51 @@ function paragraphize(text){
  }
  return out.length?out:[''];
 }
+
+function clearBoPageHeaders(input){
+ const lines=(input||'').replace(/\r\n?/g,'\n').replace(/\n[ \t]*\n(?=(?:ESTADO DE MATO GROSSO|SECRETARIA DE ESTADO|POL[IÍ]CIA MILITAR)\b)/giu,'\n').split('\n');
+ const institution=/^(?:ESTADO DE MATO GROSSO|GOVERNO (?:DO ESTADO )?DE MATO GROSSO|SECRETARIA (?:DE ESTADO )?DE SEGURANCA PUBLICA(?:\s*[-–/]\s*(?:MT|SESP))?|POLICIA (?:JUDICIARIA CIVIL|CIVIL|MILITAR)(?:\s+(?:DO ESTADO )?DE MATO GROSSO)?(?:\s*[-–/]\s*(?:MT|PJC))?)\s*$/;
+ const number=/^BOLETIM DE OCORRENCIA(?:\s*[-–]?\s*(?:N[°ºO.]?\s*[:.]?\s*)?\d{4}[.\/-]\d+)?\s*$/;
+ const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
+ let inHeader=false;
+ return lines.filter(line=>{
+  const text=norm(line.trim());
+  if(!text)return true;
+  if(institution.test(text)){inHeader=true;return false;}
+  if(inHeader&&/^(?:PM\s*[-–]\s*\d+[ªº]?\s+(?:CIPM|BPM)\b|ELABORADO POR\b|EDITADO POR\b|IMPRESSO EM\b|DATA\/HORA DA COMUNICACAO\s*:|UNIDADE DE APURACAO\s*:)/.test(text))return false;
+  if(inHeader&&unit.test(text))return false;
+  if(number.test(text))return false;
+  if(/^(?:NARRATIVA|HISTORICO(?: DA OCORRENCIA)?|RELATO DOS FATOS|PROVIDENCIAS)\s*:?\s*$/.test(text)){inHeader=false;return false;}
+  inHeader=false;
+  return true;
+ }).join('\n').trim();
+}
+
+
+function uppercasePersonNames(text,roles,input){
+ if(!$('nomesMaiusculos').checked)return text;
+ const names=Object.values(roles).flat();
+ // Filiação também identifica pessoas explicitamente.
+ for(const line of (input||'').split(/\r?\n/)){
+  const match=line.match(/^\s*Nome\s+d[ao]\s+(?:M[ãa]e|Pai)\s*\.*\s*:\s*(.+)$/iu);
+  if(match&&!/^(?:N[ÃA]O|IGNORAD|DESCONHECID)/iu.test(match[1]))names.push(match[1].trim());
+ }
+ names.push(...($('nomesExtras').value||'').split(/\r?\n/).map(n=>n.trim()).filter(Boolean));
+ const unique=[...new Set(names)].filter(n=>n&&/\p{L}/u.test(n)).sort((a,b)=>b.length-a.length);
+ if(!unique.length)return text;
+ const alternatives=unique.map(n=>n.split(/\s+/).map(escReg).join('\\s+')).join('|');
+ const pattern=new RegExp('(?<![\\p{L}\\p{N}])(?:'+alternatives+')(?![\\p{L}\\p{N}])','giu');
+ return text.replace(pattern,name=>name.toLocaleUpperCase('pt-BR'));
+}
+
 function structuredBO(input,roles){
  const clean=clearBoAdministrative(clearRepeatedPdfMarks(input).text).text;
  const lines=clean.split('\n');
  const normalized=lines.map(x=>norm(x.trim()));
  const looksBO=normalized.some(x=>/^BOLETIM DE OCORRENCIA/.test(x));
  const historyIndex=normalized.findIndex(x=>/^(?:NARRATIVA|HISTORICO(?: DA OCORRENCIA)?|RELATO DOS FATOS)\s*:?\s*$/.test(x));
- const structured=looksBO && historyIndex>=0;
- const rawHistory=structured?lines.slice(historyIndex+1).join('\n').trim():clean;
+ const structured=historyIndex>=0;
+ const rawHistory=clearBoPageHeaders(structured?lines.slice(historyIndex+1).join('\n').trim():clean);
  const number=clean.match(/BOLETIM DE OCORR[ÊE]NCIA\s*[-–]?\s*N[°ºO]?\s*:?\s*(\d{4}[.\-/]\d+)/i)?.[1]||'';
  const nature=lines.find(x=>/^Natureza\.{0,}\s*:/i.test(x.trim()))?.replace(/^Natureza\.{0,}\s*:\s*/i,'').trim()||'';
  let factDate='';
@@ -327,7 +364,7 @@ function structuredBO(input,roles){
   if(start>=0){for(let i=start+1;i<Math.min(lines.length,start+6);i++){const d=lines[i].match(/^Data\.*\s*:\s*(\d{2}\/\d{2}\/\d{4})\s+Hora\.*\s*:\s*(\d{2}:\d{2})/i);if(d){factDate=d[1]+' às '+d[2];break;}}}
  }
  const parties=qualifyParties(clean,roles);
- return {structured,number,nature:normalizeCase(nature),factDate,parties,paragraphs:paragraphize(rawHistory)};
+ return {structured,number,nature:normalizeCase(nature),factDate,parties,paragraphs:paragraphize(rawHistory).map(text=>uppercasePersonNames(text,roles,clean))};
 }
 // Mantida para testes automatizados e exportação simples.
 function textFormat(input){return structuredBO(input,identifyParties(input)).paragraphs.join('\n\n');}
@@ -752,4 +789,45 @@ const drop=$('dropZone');
 drop.addEventListener('drop',e=>{if(e.dataTransfer?.files?.length){document.querySelector('[data-view="principal"]').click();loadFile(e.dataTransfer.files[0]);}});
 counters();
 
+</script><script>/* Transferência local de arquivos entre a Central e a ferramenta. */
+window.BoTransfer = {
+ async open() {
+  return new Promise((resolve,reject)=>{
+   const request=indexedDB.open("delta-bo-transfer",1);
+   request.onupgradeneeded=()=>request.result.createObjectStore("batches");
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error);
+  });
+ },
+ async send(files,category) {
+  const db=await this.open();
+  const token=crypto.randomUUID();
+  try {
+   await new Promise((resolve,reject)=>{
+    const tx=db.transaction("batches","readwrite");
+    tx.objectStore("batches").put({files:[...files],category,created:Date.now()},token);
+    tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error);
+   });
+   return token;
+  } finally {db.close()}
+ },
+ async receive() {
+  const token=new URLSearchParams(location.search).get("selection");
+  if(!token)return null;
+  const db=await this.open();
+  try {
+   return await new Promise((resolve,reject)=>{
+    const tx=db.transaction("batches","readwrite"),store=tx.objectStore("batches");
+    const request=store.get(token);let batch=null;
+    request.onsuccess=()=>{batch=request.result;store.delete(token)};
+    tx.oncomplete=()=>{history.replaceState(null,"",location.pathname);resolve(batch)};
+    tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error);
+   });
+  } finally {db.close()}
+ }
+};
+
+BoTransfer.receive().then(async batch=>{
+ if(batch&&batch.files.length)await loadFile(batch.files[0]);
+}).catch(()=>status('Não foi possível recuperar o arquivo. Use Anexar arquivo nesta página.','error'));
 </script></body></html>
