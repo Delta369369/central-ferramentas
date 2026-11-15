@@ -223,4 +223,27 @@ copy.addEventListener("click",async()=>{
  }catch{result.focus();result.select();status.textContent="Pressione Ctrl+C para copiar o texto selecionado."}
 });
 refreshCopy();
-</script><script src="./ferramentas/gerador-hash/transfer.js?v=20261115b"></script><script src="./ferramentas/gerador-hash/entry.js?v=20261115b"></script><script src="./ferramentas/organizador-bo/entry.js"></script><script src="./ferramentas/conversor-txt-pdf/jspdf.umd.min.js"></script><script src="./ferramentas/conversor-txt-pdf/conversor.js"></script></body></html>
+</script><script src="./ferramentas/gerador-hash/transfer.js?v=20261115b"></script><script src="./ferramentas/gerador-hash/entry.js?v=20261115b"></script><script src="./ferramentas/organizador-bo/entry.js"></script><script src="./ferramentas/conversor-txt-pdf/jspdf.umd.min.js"></script><script src="./ferramentas/conversor-txt-pdf/conversor.js"></script><script>
+(function cleanOldTransfers(){
+ const expiration=Date.now()-60*60*1000;
+ for(const name of ["delta-hash-transfer","delta-bo-transfer"]){
+  const request=indexedDB.open(name,1);
+  request.onupgradeneeded=()=>request.result.createObjectStore("batches");
+  request.onerror=()=>console.warn("Não foi possível limpar transferências temporárias.");
+  request.onsuccess=()=>{
+   const db=request.result;
+   if(!db.objectStoreNames.contains("batches")){db.close();return}
+   const tx=db.transaction("batches","readwrite");
+   const cursor=tx.objectStore("batches").openCursor();
+   cursor.onsuccess=()=>{
+    const entry=cursor.result;
+    if(!entry)return;
+    if(typeof entry.value.created==="number"&&entry.value.created<expiration)entry.delete();
+    entry.continue();
+   };
+   tx.oncomplete=()=>db.close();
+   tx.onabort=()=>{db.close();console.warn("Limpeza temporária interrompida.")};
+  };
+ }
+})();
+</script></body></html>
