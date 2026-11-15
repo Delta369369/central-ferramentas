@@ -112,6 +112,18 @@ function identifyParties(text){
  const add=(role,name)=>{const val=cleanName(name);if(val&&!parties[role].some(n=>norm(n)===norm(val)))parties[role].push(val);};
  for(let i=0;i<lines.length;i++){
    let line=lines[i],normalized=norm(line);
+
+   // Boletins com blocos numerados repetem o papel para cada envolvido.
+   const numbered=normalized.match(/^\[(COMUNICANTE|VITIMA|SUSPEIT[OA]|TESTEMUNHA)\s*[-–]\s*\d+\]/);
+   if(numbered){
+     const role=asRole(numbered[1]);
+     for(let k=i+1;k<lines.length;k++){
+       const next=norm(lines[k]);
+       if(/^\[(?:COMUNICANTE|VITIMA|SUSPEIT[OA]|TESTEMUNHA)\s*[-–]\s*\d+\]/.test(next)||next.match(rRole)||/^(?:NARRATIVA|HISTORICO|RELATO DOS FATOS|NATUREZA DA OCORRENCIA|LOCAL DO FATO)\b/.test(next))break;
+       const match=lines[k].match(rName);
+       if(match){add(role,match[1]);break;}
+     }
+   }
    const label=normalized.match(rRole);
    if(label){
       const role=asRole(label[1]);if(!role)continue;
@@ -187,6 +199,9 @@ function qualifyParties(input,roles){
  const roleOf=s=>{const x=norm(s);return x.startsWith('COMUNICANTE')?'COMUNICANTE':x.startsWith('VITIMA')?'VITIMA':x.startsWith('SUSPEIT')?'SUSPEITO':x.startsWith('TESTEMUNHA')?'TESTEMUNHA':null;};
  const distinctPush=(arr,val)=>{if(val&&!arr.some(x=>norm(x)===norm(val)))arr.push(val);};
  for(const line of lines){
+
+   const numbered=norm(line).match(/^\[(COMUNICANTE|VITIMA|SUSPEIT[OA]|TESTEMUNHA)\s*[-–]\s*\d+\]/);
+   if(numbered){role=roleOf(numbered[1]);person=null;lastField=null;context='';continue;}
    const h=line.match(heading);
    if(h){role=roleOf(h[1]);person=null;lastField=null;context='';if(h[2])person=records[role].find(r=>norm(r.name)===norm(h[2].trim()))||null;continue;}
    if(stop.test(line)){role=null;person=null;lastField=null;context='';continue;}
