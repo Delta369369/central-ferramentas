@@ -9,12 +9,21 @@ window.HashTransfer = {
   });
  },
  async send(files,category) {
+  const contents = [];
+  for (const file of files) {
+   contents.push({
+    bytes: await file.arrayBuffer(),
+    name: file.name,
+    type: file.type,
+    lastModified: file.lastModified
+   });
+  }
   const db=await this.open();
   const token=crypto.randomUUID();
   try {
    await new Promise((resolve,reject)=>{
     const tx=db.transaction("batches","readwrite");
-    tx.objectStore("batches").put({files:[...files],category,created:Date.now()},token);
+    tx.objectStore("batches").put({files:contents,category,created:Date.now()},token);
     tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error);
    });
    return token;
@@ -36,7 +45,7 @@ window.HashTransfer = {
    // Materializa os dados antes de remover a cópia temporária do navegador.
    const files = [];
    for (const file of batch.files) {
-    const bytes = await file.arrayBuffer();
+    const bytes = file.bytes || await file.arrayBuffer();
     files.push(new File([bytes], file.name, {
      type: file.type,
      lastModified: file.lastModified
