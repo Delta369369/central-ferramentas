@@ -359,12 +359,17 @@ function clearBoPageHeaders(input){
  const lines=(input||'').replace(/\r\n?/g,'\n').replace(/\n[ \t]*\n(?=(?:ESTADO DE MATO GROSSO|SECRETARIA DE ESTADO|POL[IÍ]CIA MILITAR)\b)/giu,'\n').split('\n');
  const institution=/^(?:ESTADO DE MATO GROSSO|GOVERNO (?:DO ESTADO )?DE MATO GROSSO|SECRETARIA (?:DE ESTADO )?DE SEGURANCA PUBLICA(?:\s*[-–/]\s*(?:MT|SESP))?|POLICIA (?:JUDICIARIA CIVIL|CIVIL|MILITAR)(?:\s+(?:DO ESTADO )?DE MATO GROSSO)?(?:\s*[-–/]\s*(?:MT|PJC))?)\s*$/;
  const number=/^BOLETIM DE OCORRENCIA(?:\s*[-–]?\s*(?:N[°ºO.]?\s*[:.]?\s*)?\d{4}[.\/-]\d+)?\s*$/;
- const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
- let inHeader=false;
+ const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DIGITAL|DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
+ let inHeader=false, awaitingUnitAddress=false;
  return lines.filter(line=>{
   const text=norm(line.trim());
   if(!text)return true;
-  if(institution.test(text)){inHeader=true;return false;}
+  if(institution.test(text)){inHeader=true;awaitingUnitAddress=false;return false;}
+  if(inHeader&&/^UNIDADE DE APURACAO\s*:\s*$/.test(text)){awaitingUnitAddress=true;return false;}
+  if(inHeader&&awaitingUnitAddress){
+   awaitingUnitAddress=false;
+   if(/^(?:AVENIDA|AV\.?|RUA|RODOVIA|TRAVESSA|ALAMEDA|PRACA)\s+.+\bBAIRRO\s*:/.test(text))return false;
+  }
   if(inHeader&&/^(?:PM\s*[-–]\s*\d+[ªº]?\s+(?:CIPM|BPM)\b|ELABORADO POR\b|EDITADO POR\b|IMPRESSO EM\b|DATA\/HORA DA COMUNICACAO\s*:|UNIDADE DE APURACAO\s*:)/.test(text))return false;
   if(inHeader&&unit.test(text))return false;
   if(number.test(text))return false;
