@@ -53,6 +53,9 @@ txtInput.addEventListener("change", async () => {
     pdf.setFontSize(10);
     const margin = 18;
     const width = pdf.internal.pageSize.getWidth() - margin * 2;
+    // Garante que as 83 colunas do relatório caibam na largura útil do A4.
+    const reportWidth = pdf.getTextWidth("=".repeat(83));
+    pdf.setFontSize(Math.min(10, 10 * (width - 1) / reportWidth));
     const bottom = pdf.internal.pageSize.getHeight() - margin;
     const lineHeight = 4.8;
     let y = margin;
