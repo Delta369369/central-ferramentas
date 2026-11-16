@@ -52,10 +52,8 @@ txtInput.addEventListener("change", async () => {
     pdf.setFont("IBMPlexMono", "normal");
     pdf.setFontSize(10);
     const margin = 18;
-    const width = pdf.internal.pageSize.getWidth() - margin * 2;
-    // Garante que as 83 colunas do relatório caibam na largura útil do A4.
-    const reportWidth = pdf.getTextWidth("=".repeat(83));
-    pdf.setFontSize(Math.min(10, 10 * (width - 1) / reportWidth));
+    const horizontalMargin = 13;
+    const width = pdf.internal.pageSize.getWidth() - horizontalMargin * 2;
     const bottom = pdf.internal.pageSize.getHeight() - margin;
     const lineHeight = 4.8;
     let y = margin;
@@ -67,7 +65,7 @@ txtInput.addEventListener("change", async () => {
           pdf.addPage();
           y = margin;
         }
-        if (part) pdf.text(part, margin, y);
+        if (part) pdf.text(part, horizontalMargin, y);
         y += lineHeight;
       }
     }
