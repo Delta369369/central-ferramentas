@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Consulte CNPJ | Central de Ferramentas</title>
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark;font:16px/1.55 system-ui,sans-serif;--cyan:#61edff;--blue:#526fff;--amber:#ffd16c;--orange:#ff9a51;--coral:#ff7775}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top left,#14255a,transparent 55%),#060e1b;color:#edf8ff}
+main{width:min(1060px,calc(100% - 32px));margin:32px auto 64px}
+a{color:var(--cyan)}
+header{margin:20px 0;padding:24px;border:1px solid transparent;border-radius:20px;background:linear-gradient(120deg,#101d35,#081522) padding-box,linear-gradient(100deg,var(--cyan),var(--blue),var(--amber),var(--orange),var(--coral)) border-box;box-shadow:0 0 22px #526fff40}
+h1,h2{line-height:1.2;margin:0 0 12px}
+h1{color:var(--cyan);text-shadow:0 0 16px #61edff55}
+form{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+label{flex-basis:100%;font-weight:700}
+input,button{min-height:42px;padding:8px 12px;border-radius:9px;font:inherit}
+input{min-width:0;width:min(100%,230px);border:1px solid var(--cyan);background:#081522;color:#fff}
+button{border:0;background:linear-gradient(105deg,var(--amber),var(--orange),var(--coral));color:#170e14;font-weight:800;cursor:pointer}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+#status{min-height:25px;margin:12px 0 0}
+#status[data-error]{color:#ffaaa8}
+.panel{background:#0d1a2d;border:1px solid #33476d;border-radius:14px;padding:clamp(12px,3vw,24px);margin:15px 0}
+.panel>h3{color:var(--amber);margin:0 0 8px}
+#company-name{overflow-wrap:anywhere;color:var(--cyan)}
+dl{margin:0}
+.field{display:grid;grid-template-columns:minmax(110px,28%) minmax(0,1fr);gap:8px;padding:7px 0;border-bottom:1px solid #263852}
+dt{color:#b7daee;font-weight:650}
+dd{margin:0}
+dt,dd,li{overflow-wrap:anywhere}
+ol{margin:0;padding-inline-start:1.4rem}
+li+li{margin-top:8px}
+summary{cursor:pointer;color:var(--cyan);font-weight:700}
+pre{overflow:auto;max-height:550px;padding:12px;background:#060e1b;border-radius:8px}
+@media(max-width:560px){.field{display:block}dd{padding-inline-start:8px}}
+</style>
+<script src="./consulta.js" defer></script>
+</head>
+<body>
+<main>
+<a href="../../">← Central de Ferramentas</a>
+<header>
+<h1>Consulte CNPJ</h1>
+<form method="get">
+<label for="cnpj">CNPJ da empresa</label>
+<input id="cnpj" name="cnpj" type="text" inputmode="numeric" autocomplete="off" required pattern="(?:[0-9]{14}|[0-9]{2}\.[0-9]{3}\.[0-9]{3}/[0-9]{4}-[0-9]{2})" title="Digite os 14 números do CNPJ, com ou sem pontuação" placeholder="00.000.000/0000-00">
+<button>Consultar</button>
+</form>
+<p id="status" role="status"></p>
+</header>
+<noscript>Ative o JavaScript para consultar o CNPJ.</noscript>
+<section id="result" aria-labelledby="company-name" hidden>
+<h2 id="company-name"></h2>
+<div id="fields"></div>
+<details class="panel">
+<summary>Resposta original da API</summary>
+<pre id="raw"></pre>
+</details>
+</section>
+<p>Fonte dos dados: <a href="https://cnpja.com/api/open/reference">API pública do CNPJá</a>.</p>
+</main>
+</body>
+</html>
