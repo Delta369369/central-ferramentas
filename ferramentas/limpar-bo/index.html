@@ -65,7 +65,7 @@ footer{padding:20px 4px;text-align:center;color:#799dab;font-size:12px;line-heig
 <details>
 <summary>Compatibilidade e cuidados</summary>
 <ul>
-<li>Compatível com o padrão reconhecido de B.O. da SESP/MT que utiliza marca diagonal em camada separada.</li>
+<li>Compatível com os dois padrões reconhecidos de B.O. da SESP/MT: UUID alfanumérico e sequência numérica de 10 dígitos, em camada diagonal separada.</li>
 <li>Compatível com PDF que possua criptografia de permissões sem exigência de senha de abertura.</li>
 <li>Se não conseguir identificar a camada com segurança, não gera arquivo modificado.</li>
 <li>PDFs assinados digitalmente, digitalizados como imagem ou de estrutura diferente não são alterados.</li>
@@ -73,10 +73,10 @@ footer{padding:20px 4px;text-align:center;color:#799dab;font-size:12px;line-heig
 </ul>
 </details>
 </section>
-<footer>Central de Ferramentas Delta VICTOR • MuPDF WebAssembly 3.0.1 • Processamento local</footer>
+<footer>Central de Ferramentas Delta VICTOR • MuPDF WebAssembly 3.1.0 • Processamento local</footer>
 </main>
 <script type="module">
-import { cleanBO, downloadBO, version as engineVersion } from "./cleaner-wasm.mjs?v=3.0.1";
+import { cleanBO, downloadBO, version as engineVersion } from "./cleaner-wasm.mjs?v=3.1.0";
 
 (()=>{
 'use strict';
