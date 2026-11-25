@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow">
+<title>Limpar B.O. | Central de Ferramentas</title>
+<link rel="canonical" href="https://delta369369.github.io/central-ferramentas/ferramentas/limpar-bo/">
+<style>
+:root{font-family:Arial,"Segoe UI",sans-serif;color-scheme:dark;background:#030e1b;color:#e9fcff}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#083149 0%,#030e1b 57%);display:grid;place-items:center;padding:22px}
+main{width:min(690px,100%)}a{color:#7df1ff}.back{display:inline-block;margin:0 0 20px;text-decoration:none}
+.panel{border:1px solid #24e8fd;border-radius:24px;padding:clamp(20px,5vw,40px);background:linear-gradient(145deg,#06192e,#020c19);box-shadow:0 0 28px #03d7ff30}
+h1{margin:6px 0 14px;color:#8ef7ff;font-size:clamp(28px,6vw,44px)}p{color:#c4d9e2;line-height:1.55} .sub{margin-bottom:24px}
+.upload{display:block;border:2px dashed #23778c;border-radius:16px;padding:31px 17px;text-align:center;background:#0b2633;cursor:pointer;transition:.2s}
+.upload:hover,.upload:focus-within{border-color:#39f4ff;background:#103346}.upload strong{display:block;font-size:19px}.upload small{display:block;margin-top:12px;color:#a6c4ce}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+button{margin-top:20px;width:100%;padding:16px;border:0;border-radius:12px;background:#13cce5;color:#03202b;font-size:18px;font-weight:800;cursor:pointer}
+button:disabled{opacity:.42;cursor:not-allowed}button:not(:disabled):hover{background:#77f5ff}
+.status{min-height:24px;margin-top:17px;color:#bdeaf0} .error{color:#ff9c9c} .success{color:#99f5be}
+details{margin-top:24px;color:#aec9d3}summary{cursor:pointer}li{margin:7px 0;line-height:1.45}
+footer{font-size:12px;color:#8ca6b2;margin-top:20px}progress{width:100%;height:7px;margin-top:12px;display:none}
+</style>
+</head>
+<body><main>
+<a class="back" href="../../">← Voltar à Central de Ferramentas</a>
+<section class="panel">
+<h1>🧹 LIMPAR B.O.</h1>
+<p class="sub">Remova a marca d'água diagonal de boletins de ocorrência em PDF, mantendo os demais elementos do documento.</p>
+<label class="upload" id="dropzone" for="file">
+<strong>📄 Selecionar PDF</strong>
+<small id="fileName">Clique aqui ou arraste um arquivo PDF para esta área</small>
+<input id="file" type="file" accept=".pdf,application/pdf">
+</label>
+<button type="button" id="start" disabled>INICIAR LIMPEZA</button>
+<progress id="progress"></progress>
+<div class="status" id="status" role="status" aria-live="polite">Nenhum arquivo selecionado.</div>
+<details><summary>Como funciona e limites</summary><ul>
+<li>Processamento exclusivamente no navegador. O documento não é enviado à Central ou ao GitHub.</li>
+<li>Reconhece marcas diagonais repetidas que ocupem um fluxo PDF independente. Não apaga texto do boletim.</li>
+<li>Se não detectar o padrão com segurança, não altera o documento.</li>
+<li>Documentos digitalizados ou com a marca misturada à imagem podem exigir outro método.</li>
+<li>Guarde sempre o arquivo original. A cópia limpa é destinada a facilitar leitura e análise.</li>
+</ul></details>
+</section><footer>Central de Ferramentas Delta VICTOR • Processamento local • A biblioteca de PDF é carregada de uma rede pública; o conteúdo do documento permanece no navegador.</footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" crossorigin="anonymous"></script>
+<script>
+(()=>{'use strict';
+const input=document.getElementById('file'), button=document.getElementById('start'), label=document.getElementById('fileName'), status=document.getElementById('status'), progress=document.getElementById('progress'), zone=document.getElementById('dropzone');
+let selected=null;
+function say(s,kind=''){status.textContent=s;status.className='status '+kind}
+function select(f){selected=f&&(/\.pdf$/i.test(f.name)||f.type==='application/pdf')?f:null;input.value='';button.disabled=!selected;label.textContent=selected?selected.name+' • '+(selected.size/1024).toFixed(1)+' KB':'Clique ou arraste um PDF';say(selected?'Arquivo pronto para limpeza.':'Selecione um arquivo PDF.',selected?'':'error')}
+input.addEventListener('change',()=>select(input.files[0]));
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.borderColor='#56eaff'});
+zone.addEventListener('dragleave',()=>zone.style.borderColor='');
+zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';select(e.dataTransfer.files[0])});
+const uuid=/\(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\)\s*Tj/gi;
+const markBlock=/BT\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+Tm\s+\([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\)\s+Tj\s+ET/gi;
+async function decoded(s){
+  const raw=s.contents;
+  const filter=s.dict.get(PDFLib.PDFName.of('Filter'));
+  if(!filter)return new TextDecoder('latin1').decode(raw);
+  if(String(filter)!=='/FlateDecode')return null;
+  if(typeof DecompressionStream==='undefined')throw Error('Este navegador não suporta descompactação de PDF.');
+  const bytes=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer();
+  return new TextDecoder('latin1').decode(bytes);
+}
+function matchesWatermark(s){
+  if(!s||s.length<350)return 0;
+  const ids=[...s.matchAll(uuid)].map(m=>m[1].toLowerCase());
+  if(ids.length<8||new Set(ids).size!==1)return 0;
+  const blocks=[...s.matchAll(markBlock)];
+  if(blocks.length!==ids.length)return 0;
+  const residual=s.replace(markBlock,'').replace(/^\s*Q\s*\/gs\d+\s+gs\s+\/F\d+\s+[\d.]+\s+Tf\s*/,'').trim();
+  if(residual!=='')return 0;
+  return ids.length;
+}
+async function clean(bytes){
+  const {PDFDocument,PDFName,PDFArray,PDFRawStream}=PDFLib;
+  const doc=await PDFDocument.load(bytes,{updateMetadata:false});
+  let streams=0, occurrences=0, pages=0;
+  for(const page of doc.getPages()){
+    const contents=page.node.get(PDFName.of('Contents'));
+    const obj=contents&&doc.context.lookup(contents);
+    if(!obj)continue;
+    const entries=obj instanceof PDFArray?Array.from({length:obj.size()},(_,i)=>({item:obj.get(i),index:i})): [{item:contents,index:-1}];
+    let pageFound=false;
+    for(const entry of entries){
+      const stream=doc.context.lookup(entry.item);
+      if(!(stream instanceof PDFRawStream))continue;
+      const plain=await decoded(stream);
+      const count=matchesWatermark(plain);
+      if(!count)continue;
+      // Conserva o operador Q que encerra o estado gráfico anterior à marca.
+      const replacement=doc.context.register(doc.context.flateStream('Q\n'));
+      if(obj instanceof PDFArray)obj.set(entry.index,replacement);
+      else page.node.set(PDFName.of('Contents'),replacement);
+      occurrences+=count;streams++;pageFound=true;
+    }
+    if(pageFound)pages++;
+  }
+  if(!streams)throw Error('Não foi encontrado um fluxo independente com a marca d’água reconhecida. Nenhuma alteração foi realizada.');
+  const output=await doc.save({useObjectStreams:false,updateFieldAppearances:false});
+  // Reabre o resultado para detectar erros estruturais antes do download.
+  const verify=await PDFDocument.load(output,{updateMetadata:false});
+  if(verify.getPageCount()!==doc.getPageCount())throw Error('A verificação do arquivo limpo falhou.');
+  return {output,streams,occurrences,pages};
+}
+button.addEventListener('click',async()=>{
+  if(!selected)return;
+  button.disabled=true;progress.style.display='block';progress.removeAttribute('value');
+  try{
+    if(!window.PDFLib)throw Error('Biblioteca de PDF indisponível. Verifique a conexão com a internet.');
+    if(selected.size>75*1024*1024)throw Error('O arquivo excede o limite de 75 MB.');
+    say('Analisando e limpando o PDF...');
+    const result=await clean(await selected.arrayBuffer());
+    const url=URL.createObjectURL(new Blob([result.output],{type:'application/pdf'}));
+    const a=document.createElement('a');a.href=url;a.download=selected.name.replace(/\.pdf$/i,'')+'_LIMPO.pdf';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    say('Concluído: '+result.pages+' página(s), '+result.occurrences+' marca(s) removida(s). O download da cópia limpa foi iniciado.','success');
+  }catch(e){say(e.message||'Erro ao processar o PDF.','error')}
+  finally{button.disabled=!selected;progress.style.display='none'}
+});
+})();
+</script></body></html>
