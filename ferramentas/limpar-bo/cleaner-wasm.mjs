@@ -3,14 +3,13 @@
  * Copyright (c) 2026 Central de Ferramentas Delta VICTOR
  * Dependência: MuPDF.js (AGPL-3.0-or-later), https://mupdf.com
  *
- * Reconhecimento estrutural sem UUID hardcoded:
- * a camada reconhecida contém APENAS comandos de texto de UUID repetido,
- * inclinados a 60°, em um fluxo /Contents independente da página.
+ * Reconhecimento estrutural de UUID ou sequência numérica variável:
+ * a camada reconhecida contém APENAS comandos de texto diagonal repetido, em um fluxo /Contents independente da página.
  * O operador inicial Q é preservado para manter o balanceamento gráfico.
  * Nunca edita ou envia o arquivo original.
  */
 
-const VERSION = "3.0.1";
+const VERSION = "3.1.0";
 const DEPENDENCIES = [
   "https://cdn.jsdelivr.net/npm/mupdf@1.28.6/dist/mupdf.js",
   "https://unpkg.com/mupdf@1.28.6/dist/mupdf.js",
@@ -49,21 +48,27 @@ const encoder = new TextEncoder();
 const prefixRE = /^\s*Q\s+\/gs\d+\s+gs\s+\/F\d+\s+12\s+Tf\s*/i;
 const commandRE = /BT\s+0\.5\s+0\.86603\s+-0\.86603\s+0\.5\s+-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?\s+Tm\s+\(([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)\s+Tj\s+ET\s*/gi;
 
+const numericPrefixRE = /^\s*Q\s+q\s+\/Gs\d+\s+gs\s*/;
+const numericCommandRE = /q\s+0\.52532\s+0\.8509\s+-0\.8509\s+0\.52532\s+-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?\s+cm\s+q\s+BT\s+\/F\d+\s+15\s+Tf\s+-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?\s+Td\s+\((\d{10})\)\s*Tj\s+ET\s+Q\s+Q\s*/g;
+
 function analyzeStream(bytes) {
-  // Retorna null se contiver qualquer desenho, imagem ou texto além da marca.
   if (bytes.length < 400 || bytes.length > 300000) return null;
   const content = textDecoder.decode(bytes);
-  const initial = prefixRE.exec(content);
-  if (!initial) return null;
-  const commands = content.slice(initial[0].length);
-  const matches = [...commands.matchAll(commandRE)];
-  if (matches.length < 8 || matches.length > 2000) return null;
-  const identifier = matches[0][1].toLowerCase();
-  if (matches.some((m) => m[1].toLowerCase() !== identifier))
-    return null;
-  // A camada deve consistir EXCLUSIVAMENTE dos comandos de marca d'água.
-  if (commands.replace(commandRE, "").trim() !== "") return null;
-  return { identifier, count: matches.length };
+  for (const [type, prefix, pattern, suffix] of [
+    ["UUID", prefixRE, commandRE, ""],
+    ["NUMERICO", numericPrefixRE, numericCommandRE, "Q"],
+  ]) {
+    const initial = prefix.exec(content);
+    if (!initial) continue;
+    const commands = content.slice(initial[0].length);
+    const matches = [...commands.matchAll(pattern)];
+    if (matches.length < 8 || matches.length > 2000) continue;
+    const identifier = matches[0][1].toLowerCase();
+    if (matches.some(m => m[1].toLowerCase() !== identifier)) continue;
+    if (commands.replace(pattern, "").trim() !== suffix) continue;
+    return { type, identifier, count: matches.length };
+  }
+  return null;
 }
 
 function readDecoded(stream) {
@@ -159,6 +164,7 @@ export async function cleanWithEngine(mupdf, file, progress = () => {}) {
     const plans = [];
     let total = 0;
     let identifier = null;
+    let patternType = null;
     for (let p = 0; p < pages; p++) {
       progress("Identificando camada diagonal: página " + (p + 1) + "/" + pages + "…");
       const streams = streamsOnPage(doc, p);
@@ -176,9 +182,10 @@ export async function cleanWithEngine(mupdf, file, progress = () => {}) {
       const { value, index } = candidates[0];
       // Permite cada boletim ter um identificador próprio.
       // Impede aceitar duas marcas diferentes no MESMO arquivo.
-      if (identifier !== null && value.identifier !== identifier)
+      if (identifier !== null && (value.identifier !== identifier || value.type !== patternType))
         throw new Error("Identificadores divergentes entre as páginas.");
       identifier = value.identifier;
+      patternType = value.type;
       plans.push({ pageIndex: p, streamIndex: index, expected: snapshots });
       total += value.count;
     }
@@ -217,7 +224,7 @@ export async function cleanWithEngine(mupdf, file, progress = () => {}) {
           );
       }
     }
-    return { output, pages, occurrences: total, identifier, engine: "MuPDF WASM " + VERSION };
+    return { output, pages, occurrences: total, identifier, patternType, engine: "MuPDF WASM " + VERSION };
   } finally {
     verified?.destroy?.();
     savedBuffer?.destroy?.();
