@@ -104,22 +104,18 @@ function streamsOnPage(pdf, index) {
   return streams;
 }
 
-function hasDigitalSignature(pdf) {
-  const acroForm = pdf.getTrailer().get("Root", "AcroForm");
-  if (!acroForm) return false;
-  const fields = acroForm.get("Fields");
-  if (!fields?.isArray()) return false;
-  const visit = (array, depth = 0) => {
-    if (depth > 12) return true;
-    for (let i = 0; i < array.length; i++) {
-      const field = array.get(i);
-      if (field?.get("FT")?.asName?.() === "Sig" && field.get("V")) return true;
-      const kids = field?.get("Kids");
-      if (kids?.isArray() && visit(kids, depth + 1)) return true;
+function hasDigitalSignatureBytes(bytes) {
+  // Verificação conservadora: assinaturas PAdES possuem marcador /ByteRange.
+  // Busca nos bytes para evitar acessar objetos PDF potencialmente reparados.
+  const marker = [47,66,121,116,101,82,97,110,103,101]; // /ByteRange
+  outer: for (let i = 0; i <= bytes.length - marker.length; i++) {
+    if (bytes[i] !== marker[0]) continue;
+    for (let j = 1; j < marker.length; j++) {
+      if (bytes[i + j] !== marker[j]) continue outer;
     }
-    return false;
-  };
-  return visit(fields);
+    return true;
+  }
+  return false;
 }
 
 export async function cleanBO(file, progress = () => {}) {
@@ -148,7 +144,7 @@ export async function cleanWithEngine(mupdf, file, progress = () => {}) {
       throw new Error("Arquivo não foi reconhecido como PDF.");
     if (doc.needsPassword())
       throw new Error("Este PDF exige uma senha de abertura.");
-    if (hasDigitalSignature(doc))
+    if (hasDigitalSignatureBytes(bytes))
       throw new Error(
         "Este arquivo contém assinatura digital incorporada. " +
         "Para evitar sua invalidação, a limpeza foi cancelada."
