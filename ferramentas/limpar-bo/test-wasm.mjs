@@ -24,11 +24,11 @@ function makeFixture(identifier, pageCount, withWatermark = true) {
       const parts = [
         pdf.addStream("q\n"),
         pdf.addStream("q\n"),
-        pdf.addStream("BT /F1 11 Tf 50 750 Td (BO TESTE PAGINA " + (p + 1) + ") Tj ET\n"),
+        pdf.addStream("BT /F1 11 Tf 50 750 Td (BO TESTE PAGINA " + (p + 1) + " AUTENTICACAO " + identifier + ") Tj ET\n"),
         pdf.addStream("Q\n"),
       ];
       if (withWatermark) {
-        const mark = "Q\n/gs" + (p + 1) + " gs\n/F1 12 Tf\n" +
+        const mark = /^\d{10}$/.test(identifier) ? "Q\nq\n/Gs1 gs\n" + Array.from({length:70}, (_, j) => "q\n0.52532 0.8509 -0.8509 0.52532 "+(j*7-100)+" 1200 cm\nq\nBT\n/F1 15 Tf\n-982.26 -987.59 Td\n("+identifier+")Tj\nET\nQ\nQ\n").join("")+"Q\n" : "Q\n/gs" + (p + 1) + " gs\n/F1 12 Tf\n" +
           Array.from({ length: 84 }, (_, j) =>
             "BT\n0.5 0.86603 -0.86603 0.5 " +
             (j * 7.3 - 115).toFixed(5) + " " +
@@ -73,3 +73,12 @@ try {
 }
 assert.ok(rejected, "PDF sem marca deve ser rejeitado sem modificação");
 console.log("OK: documento sem marca rejeitado com segurança");
+
+for (const identifier of ["0123456789","9876543210"]) {
+  const result = await cleanWithEngine(mupdf, asFile(makeFixture(identifier,6), "numerico.pdf"));
+  assert.equal(result.pages,6);
+  assert.equal(result.occurrences,420);
+  assert.equal(result.identifier,identifier);
+  assert.equal(result.patternType,"NUMERICO");
+  console.log("OK: padrão numérico variável, 6 páginas, 420 marcas");
+}
