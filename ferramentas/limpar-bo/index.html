@@ -1,125 +1,113 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="index,follow">
-<title>Limpar B.O. | Central de Ferramentas</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#051525">
+<meta name="description" content="Remova localmente a marca diagonal de Boletins de Ocorrência em PDF.">
 <link rel="canonical" href="https://delta369369.github.io/central-ferramentas/ferramentas/limpar-bo/">
+<title>LIMPAR B.O. | Central de Ferramentas</title>
 <style>
-:root{font-family:Arial,"Segoe UI",sans-serif;color-scheme:dark;background:#030e1b;color:#e9fcff}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#083149 0%,#030e1b 57%);display:grid;place-items:center;padding:22px}
-main{width:min(690px,100%)}a{color:#7df1ff}.back{display:inline-block;margin:0 0 20px;text-decoration:none}
-.panel{border:1px solid #24e8fd;border-radius:24px;padding:clamp(20px,5vw,40px);background:linear-gradient(145deg,#06192e,#020c19);box-shadow:0 0 28px #03d7ff30}
-h1{margin:6px 0 14px;color:#8ef7ff;font-size:clamp(28px,6vw,44px)}p{color:#c4d9e2;line-height:1.55} .sub{margin-bottom:24px}
-.upload{display:block;border:2px dashed #23778c;border-radius:16px;padding:31px 17px;text-align:center;background:#0b2633;cursor:pointer;transition:.2s}
-.upload:hover,.upload:focus-within{border-color:#39f4ff;background:#103346}.upload strong{display:block;font-size:19px}.upload small{display:block;margin-top:12px;color:#a6c4ce}
-input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
-button{margin-top:20px;width:100%;padding:16px;border:0;border-radius:12px;background:#13cce5;color:#03202b;font-size:18px;font-weight:800;cursor:pointer}
-button:disabled{opacity:.42;cursor:not-allowed}button:not(:disabled):hover{background:#77f5ff}
-.status{min-height:24px;margin-top:17px;color:#bdeaf0} .error{color:#ff9c9c} .success{color:#99f5be}
-details{margin-top:24px;color:#aec9d3}summary{cursor:pointer}li{margin:7px 0;line-height:1.45}
-footer{font-size:12px;color:#8ca6b2;margin-top:20px}progress{width:100%;height:7px;margin-top:12px;display:none}
+:root{font-family:"Segoe UI",Arial,sans-serif;color-scheme:dark;--accent:#32ecff;--text:#e8fbff;--muted:#9bb9c6}
+*{box-sizing:border-box}
+body{min-height:100vh;margin:0;background:radial-gradient(ellipse at 50% -10%,#0c4156 0%,transparent 50%),linear-gradient(140deg,#03111f,#010b18 65%,#042335);color:var(--text);padding:28px 18px}
+main{width:min(760px,100%);margin:0 auto}
+a{color:#a2f8ff}
+.back{display:inline-flex;align-items:center;gap:8px;color:#b6e8f2;text-decoration:none;padding:9px 0;margin-bottom:20px}
+.back:hover{text-decoration:underline}
+.panel{border:1.5px solid var(--accent);border-radius:24px;padding:clamp(21px,4vw,44px);background:linear-gradient(150deg,#071b2e,#031020);box-shadow:0 0 24px #10ceef30,inset 0 0 25px #0bdeff09}
+.head{text-align:center}
+.head .symbol{font-size:48px;line-height:1}
+h1{font-size:clamp(29px,5.5vw,42px);color:#91f7ff;margin:12px 0;text-shadow:0 0 15px #17d4ea88}
+.head p{line-height:1.55;color:var(--muted);font-size:16px;max-width:530px;margin:0 auto 28px}
+.drop{display:flex;min-height:180px;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;border:2px dashed #378ba5;border-radius:18px;background:#082637;text-align:center;cursor:pointer;transition:.15s}
+.drop:hover,.drop.drag{border-color:#55efff;background:#0e3244}
+.drop strong{font-size:19px}
+.drop .icon{font-size:35px}
+.drop small{color:#a8c7d3;max-width:400px;overflow-wrap:anywhere}
+#file{position:absolute;width:1px;height:1px;opacity:0}
+.fileRow{margin:14px 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:#bde6f0;font-size:13px}
+.btn{display:block;width:100%;margin-top:19px;padding:16px;border:1px solid #60f4ff;border-radius:13px;background:linear-gradient(130deg,#18dff4,#0099bf);color:#002337;font-size:17px;font-weight:850;cursor:pointer;box-shadow:0 0 18px #0cdbf04a}
+.btn:disabled{cursor:not-allowed;opacity:.45;box-shadow:none}
+.btn:not(:disabled):hover{filter:brightness(1.12)}
+.status{min-height:50px;margin-top:17px;padding:12px 15px;border-radius:12px;background:#072635;border:1px solid #194b60;color:#c5e2e8;line-height:1.45}
+.status.error{color:#ffc9c9;border-color:#cb6060;background:#3e142040}
+.status.success{color:#a8ffd3;border-color:#3caa7e;background:#06372865}
+progress{width:100%;height:8px;margin-top:14px;accent-color:#25e5f8;display:none}
+.info{display:flex;align-items:center;gap:9px;margin:20px 0 0;font-size:14px;color:#b5dfe4}
+details{margin-top:22px;color:#b9d5df;font-size:14px;line-height:1.55}
+summary{cursor:pointer;font-weight:650}
+li{margin:6px 0}
+footer{padding:20px 4px;text-align:center;color:#799dab;font-size:12px;line-height:1.5}
+:focus-visible{outline:2px solid #fff;outline-offset:4px}
 </style>
 </head>
-<body><main>
+<body>
+<main>
 <a class="back" href="../../">← Voltar à Central de Ferramentas</a>
 <section class="panel">
-<h1>🧹 LIMPAR B.O.</h1>
-<p class="sub">Remova a marca d'água diagonal de boletins de ocorrência em PDF, mantendo os demais elementos do documento.</p>
-<label class="upload" id="dropzone" for="file">
-<strong>📄 Selecionar PDF</strong>
-<small id="fileName">Clique aqui ou arraste um arquivo PDF para esta área</small>
-<input id="file" type="file" accept=".pdf,application/pdf">
+<header class="head">
+<div class="symbol" aria-hidden="true">🧹</div>
+<h1>LIMPAR B.O.</h1>
+<p>Remova os caracteres diagonais do Boletim de Ocorrência e baixe uma cópia legível, preservando o conteúdo original.</p>
+</header>
+<label id="drop" class="drop" for="file">
+<span class="icon" aria-hidden="true">📄</span>
+<strong>Clique para selecionar um PDF</strong>
+<small id="filename">Ou arraste e solte o documento nesta área</small>
+<input type="file" id="file" accept=".pdf,application/pdf">
 </label>
-<button type="button" id="start" disabled>INICIAR LIMPEZA</button>
-<progress id="progress"></progress>
-<div class="status" id="status" role="status" aria-live="polite">Nenhum arquivo selecionado.</div>
-<details><summary>Como funciona e limites</summary><ul>
-<li>Processamento exclusivamente no navegador. O documento não é enviado à Central ou ao GitHub.</li>
-<li>Reconhece marcas diagonais repetidas que ocupem um fluxo PDF independente. Não apaga texto do boletim.</li>
-<li>Se não detectar o padrão com segurança, não altera o documento.</li>
-<li>Documentos digitalizados ou com a marca misturada à imagem podem exigir outro método.</li>
-<li>Guarde sempre o arquivo original. A cópia limpa é destinada a facilitar leitura e análise.</li>
-</ul></details>
-</section><footer>Central de Ferramentas Delta VICTOR • Processamento local • A biblioteca de PDF é carregada de uma rede pública; o conteúdo do documento permanece no navegador.</footer>
+<div class="fileRow"><span id="size">Nenhum documento selecionado</span><span>PDF • Até 75 MB</span></div>
+<button class="btn" type="button" id="run" disabled>🧹 INICIAR LIMPEZA</button>
+<progress id="progress" aria-label="Processando documento"></progress>
+<div class="status" id="status" role="status" aria-live="polite">Selecione um boletim para começar.</div>
+<div class="info">🔒 O documento é processado no próprio navegador. Não é enviado para servidores.</div>
+<details>
+<summary>Compatibilidade e cuidados</summary>
+<ul>
+<li>Compatível com o padrão reconhecido de B.O. da SESP/MT que utiliza marca diagonal em camada separada.</li>
+<li>Também trata o modelo antigo que utiliza criptografia de abertura sem senha.</li>
+<li>Se não conseguir identificar a camada com segurança, não gera arquivo modificado.</li>
+<li>PDFs assinados digitalmente, digitalizados como imagem ou de estrutura diferente não são alterados.</li>
+<li>Guarde o original para fins de conferência. A cópia limpa serve para leitura e análise.</li>
+</ul>
+</details>
+</section>
+<footer>Central de Ferramentas Delta VICTOR • Versão 2.0 • Processamento local</footer>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" crossorigin="anonymous"></script>
+<script src="./cleaner.js?v=2.0.0"></script>
 <script>
-(()=>{'use strict';
-const input=document.getElementById('file'), button=document.getElementById('start'), label=document.getElementById('fileName'), status=document.getElementById('status'), progress=document.getElementById('progress'), zone=document.getElementById('dropzone');
-let selected=null;
-function say(s,kind=''){status.textContent=s;status.className='status '+kind}
-function select(f){selected=f&&(/\.pdf$/i.test(f.name)||f.type==='application/pdf')?f:null;input.value='';button.disabled=!selected;label.textContent=selected?selected.name+' • '+(selected.size/1024).toFixed(1)+' KB':'Clique ou arraste um PDF';say(selected?'Arquivo pronto para limpeza.':'Selecione um arquivo PDF.',selected?'':'error')}
-input.addEventListener('change',()=>select(input.files[0]));
-zone.addEventListener('dragover',e=>{e.preventDefault();zone.style.borderColor='#56eaff'});
-zone.addEventListener('dragleave',()=>zone.style.borderColor='');
-zone.addEventListener('drop',e=>{e.preventDefault();zone.style.borderColor='';select(e.dataTransfer.files[0])});
-const uuid=/\(([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\)\s*Tj/gi;
-const markBlock=/BT\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+[-+\d.]+\s+Tm\s+\([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\)\s+Tj\s+ET/gi;
-async function decoded(s){
-  const raw=s.contents;
-  const filter=s.dict.get(PDFLib.PDFName.of('Filter'));
-  if(!filter)return new TextDecoder('latin1').decode(raw);
-  if(String(filter)!=='/FlateDecode')return null;
-  if(typeof DecompressionStream==='undefined')throw Error('Este navegador não suporta descompactação de PDF.');
-  const bytes=await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer();
-  return new TextDecoder('latin1').decode(bytes);
+(()=>{
+'use strict';
+const input=document.getElementById('file'),zone=document.getElementById('drop'),run=document.getElementById('run');
+const status=document.getElementById('status'),filename=document.getElementById('filename'),size=document.getElementById('size'),bar=document.getElementById('progress');
+let chosen=null;
+function message(text,kind=''){status.textContent=text;status.className='status '+kind}
+function select(file){
+ chosen=file&&(/\.pdf$/i.test(file.name)||file.type==='application/pdf')?file:null;
+ input.value='';
+ run.disabled=!chosen;
+ filename.textContent=chosen?chosen.name:'Ou arraste e solte o documento nesta área';
+ size.textContent=chosen?(chosen.size/1024/1024).toFixed(2)+' MB':'Nenhum documento selecionado';
+ message(chosen?'Arquivo pronto para limpeza. Clique em INICIAR LIMPEZA.':'Selecione um arquivo PDF.',chosen?'':'error');
 }
-function matchesWatermark(s){
-  if(!s||s.length<350)return 0;
-  const ids=[...s.matchAll(uuid)].map(m=>m[1].toLowerCase());
-  if(ids.length<8||new Set(ids).size!==1)return 0;
-  const blocks=[...s.matchAll(markBlock)];
-  if(blocks.length!==ids.length)return 0;
-  const residual=s.replace(markBlock,'').replace(/^\s*Q\s*\/gs\d+\s+gs\s+\/F\d+\s+[\d.]+\s+Tf\s*/,'').trim();
-  if(residual!=='')return 0;
-  return ids.length;
-}
-async function clean(bytes){
-  const {PDFDocument,PDFName,PDFArray,PDFRawStream}=PDFLib;
-  const doc=await PDFDocument.load(bytes,{updateMetadata:false});
-  let streams=0, occurrences=0, pages=0;
-  for(const page of doc.getPages()){
-    const contents=page.node.get(PDFName.of('Contents'));
-    const obj=contents&&doc.context.lookup(contents);
-    if(!obj)continue;
-    const entries=obj instanceof PDFArray?Array.from({length:obj.size()},(_,i)=>({item:obj.get(i),index:i})): [{item:contents,index:-1}];
-    let pageFound=false;
-    for(const entry of entries){
-      const stream=doc.context.lookup(entry.item);
-      if(!(stream instanceof PDFRawStream))continue;
-      const plain=await decoded(stream);
-      const count=matchesWatermark(plain);
-      if(!count)continue;
-      // Conserva o operador Q que encerra o estado gráfico anterior à marca.
-      const replacement=doc.context.register(doc.context.flateStream('Q\n'));
-      if(obj instanceof PDFArray)obj.set(entry.index,replacement);
-      else page.node.set(PDFName.of('Contents'),replacement);
-      occurrences+=count;streams++;pageFound=true;
-    }
-    if(pageFound)pages++;
-  }
-  if(!streams)throw Error('Não foi encontrado um fluxo independente com a marca d’água reconhecida. Nenhuma alteração foi realizada.');
-  const output=await doc.save({useObjectStreams:false,updateFieldAppearances:false});
-  // Reabre o resultado para detectar erros estruturais antes do download.
-  const verify=await PDFDocument.load(output,{updateMetadata:false});
-  if(verify.getPageCount()!==doc.getPageCount())throw Error('A verificação do arquivo limpo falhou.');
-  return {output,streams,occurrences,pages};
-}
-button.addEventListener('click',async()=>{
-  if(!selected)return;
-  button.disabled=true;progress.style.display='block';progress.removeAttribute('value');
-  try{
-    if(!window.PDFLib)throw Error('Biblioteca de PDF indisponível. Verifique a conexão com a internet.');
-    if(selected.size>75*1024*1024)throw Error('O arquivo excede o limite de 75 MB.');
-    say('Analisando e limpando o PDF...');
-    const result=await clean(await selected.arrayBuffer());
-    const url=URL.createObjectURL(new Blob([result.output],{type:'application/pdf'}));
-    const a=document.createElement('a');a.href=url;a.download=selected.name.replace(/\.pdf$/i,'')+'_LIMPO.pdf';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),60000);
-    say('Concluído: '+result.pages+' página(s), '+result.occurrences+' marca(s) removida(s). O download da cópia limpa foi iniciado.','success');
-  }catch(e){say(e.message||'Erro ao processar o PDF.','error')}
-  finally{button.disabled=!selected;progress.style.display='none'}
+input.addEventListener('change',()=>{if(input.files.length)select(input.files[0])});
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag')});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');if(e.dataTransfer.files.length)select(e.dataTransfer.files[0])});
+run.addEventListener('click',async()=>{
+ if(!chosen)return;
+ const file=chosen;
+ run.disabled=true;bar.style.display='block';bar.removeAttribute('value');
+ try{
+  if(!window.DeltaBoCleaner)throw Error('Módulo de limpeza indisponível. Atualize a página.');
+  const result=await DeltaBoCleaner.clean(file,text=>message(text));
+  DeltaBoCleaner.download(file,result);
+  message('✅ Limpeza concluída! '+result.occurrences+' marcas removidas em '+result.pages+' página(s). A cópia está sendo baixada.','success');
+ }catch(e){message('Não foi possível limpar: '+(e.message||'Erro desconhecido.'),'error')}
+ finally{run.disabled=!chosen;bar.style.display='none'}
 });
 })();
-</script></body></html>
+</script>
+</body>
+</html>
