@@ -1,0 +1,22 @@
+name: Limpar BO - MuPDF WASM
+on:
+  push:
+    paths:
+      - "ferramentas/limpar-bo/**"
+      - ".github/workflows/limpar-bo-wasm.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalar motor MuPDF WebAssembly
+        run: npm install --no-save mupdf@1.28.6
+      - name: Verificar fluxos e identificadores variáveis
+        run: node ferramentas/limpar-bo/test-wasm.mjs
