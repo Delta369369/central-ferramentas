@@ -10,7 +10,7 @@
  * Nunca edita ou envia o arquivo original.
  */
 
-const VERSION = "3.0.0";
+const VERSION = "3.0.1";
 const DEPENDENCIES = [
   "https://cdn.jsdelivr.net/npm/mupdf@1.28.6/dist/mupdf.js",
   "https://unpkg.com/mupdf@1.28.6/dist/mupdf.js",
