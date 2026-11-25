@@ -66,17 +66,18 @@ footer{padding:20px 4px;text-align:center;color:#799dab;font-size:12px;line-heig
 <summary>Compatibilidade e cuidados</summary>
 <ul>
 <li>Compatível com o padrão reconhecido de B.O. da SESP/MT que utiliza marca diagonal em camada separada.</li>
-<li>Também trata o modelo antigo que utiliza criptografia de abertura sem senha.</li>
+<li>Compatível com PDF que possua criptografia de permissões sem exigência de senha de abertura.</li>
 <li>Se não conseguir identificar a camada com segurança, não gera arquivo modificado.</li>
 <li>PDFs assinados digitalmente, digitalizados como imagem ou de estrutura diferente não são alterados.</li>
-<li>Guarde o original para fins de conferência. A cópia limpa serve para leitura e análise.</li>
+<li>Guarde o original para fins de conferência. A cópia limpa serve para leitura e análise.</li><li>Motor MuPDF (Artifex Software), distribuído sob licença AGPL-3.0-or-later. <a href="https://github.com/ArtifexSoftware/mupdf" target="_blank" rel="noopener noreferrer">Código-fonte MuPDF</a>.</li>
 </ul>
 </details>
 </section>
-<footer>Central de Ferramentas Delta VICTOR • Versão 2.0 • Processamento local</footer>
+<footer>Central de Ferramentas Delta VICTOR • MuPDF WebAssembly 3.0 • Processamento local</footer>
 </main>
-<script src="./cleaner.js?v=2.0.0"></script>
-<script>
+<script type="module">
+import { cleanBO, downloadBO, version as engineVersion } from "./cleaner-wasm.mjs?v=3.0.0";
+
 (()=>{
 'use strict';
 const input=document.getElementById('file'),zone=document.getElementById('drop'),run=document.getElementById('run');
@@ -100,9 +101,9 @@ run.addEventListener('click',async()=>{
  const file=chosen;
  run.disabled=true;bar.style.display='block';bar.removeAttribute('value');
  try{
-  if(!window.DeltaBoCleaner)throw Error('Módulo de limpeza indisponível. Atualize a página.');
-  const result=await DeltaBoCleaner.clean(file,text=>message(text));
-  DeltaBoCleaner.download(file,result);
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  const result=await cleanBO(file,text=>message(text));
+  downloadBO(file,result);
   message('✅ Limpeza concluída! '+result.occurrences+' marcas removidas em '+result.pages+' página(s). A cópia está sendo baixada.','success');
  }catch(e){message('Não foi possível limpar: '+(e.message||'Erro desconhecido.'),'error')}
  finally{run.disabled=!chosen;bar.style.display='none'}
