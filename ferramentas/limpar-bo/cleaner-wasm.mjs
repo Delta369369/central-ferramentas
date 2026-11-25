@@ -195,7 +195,7 @@ export async function cleanWithEngine(mupdf, file, progress = () => {}) {
     }
 
     progress("Gravando cópia local do PDF…");
-    savedBuffer = doc.saveToBuffer("garbage=deduplicate,compress=flate,encrypt=none");
+    savedBuffer = doc.saveToBuffer("garbage=2,compress=yes,encrypt=none");
     const output = new Uint8Array(savedBuffer.asUint8Array());
 
     progress("Verificando integridade dos demais fluxos…");
