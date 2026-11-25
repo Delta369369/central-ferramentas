@@ -130,6 +130,11 @@ export async function cleanBO(file, progress = () => {}) {
 
   progress("Carregando motor MuPDF WebAssembly…");
   const mupdf = await loadEngine();
+  return cleanWithEngine(mupdf, file, progress);
+}
+
+// Motor injetável para validação automatizada sem baixar arquivos do usuário.
+export async function cleanWithEngine(mupdf, file, progress = () => {}) {
   progress("Abrindo arquivo no MuPDF…");
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (textDecoder.decode(bytes.subarray(0, 5)) !== "%PDF-")
