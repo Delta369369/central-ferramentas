@@ -41,7 +41,7 @@ function makeFixture(identifier, pageCount, withWatermark = true) {
       for (const item of parts) array.push(item);
       pdf.findPage(p).put("Contents", array);
     }
-    const output = pdf.saveToBuffer("compress=flate");
+    const output = pdf.saveToBuffer("compress=yes");
     try { return new Uint8Array(output.asUint8Array()); }
     finally { output.destroy?.(); }
   } finally { pdf.destroy?.(); }
