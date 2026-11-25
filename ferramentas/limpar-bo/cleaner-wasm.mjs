@@ -47,7 +47,7 @@ async function loadEngine() {
 const textDecoder = new TextDecoder("latin1");
 const encoder = new TextEncoder();
 const prefixRE = /^\s*Q\s+\/gs\d+\s+gs\s+\/F\d+\s+12\s+Tf\s*/i;
-const commandRE = /BT\s+0\.5\s+0\.86603\s+-0\.86603\s+0\.5\s+-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?\s+Tm\s+\(([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)\s+Tj\s+ET\s*/gi;
+const commandRE = /BT\s+0\.5\s+0\.86603\s+-0\.86603\s+0\.5\s+-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?\s+Tm\s+\(([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)\s+Tj\s+ET\s*/gi;
 
 function analyzeStream(bytes) {
   // Retorna null se contiver qualquer desenho, imagem ou texto além da marca.
