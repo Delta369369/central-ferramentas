@@ -48,15 +48,12 @@
 .speech-controls small{font-size:12px;color:#caffad}
 @media(max-width:980px){.side{flex-wrap:wrap}.speech-controls{flex:1 1 100%;max-width:500px;margin:10px auto}}
 </style><style>
-#result{background:#F3F5F7;color:#0C1014;text-shadow:0 0 4px rgba(0,190,215,.24)}
-#result .result-party-card{background:#314d62;border-color:#7594a8}
-#result .result-narrative{background:#314d62;border:1px solid #7594a8;border-radius:9px;padding:16px}
-#result .result-narrative :is(.result-heading,.result-paragraph){color:#fff}
-
-#result .result-party-card :is(.result-party,.result-label,.result-person,.result-qualification){color:#fff}
-#result .result-section{border-top-color:#b8c9d0}
+#original,#result{background:#fffaf0;color:#000}
+#result .result-party-card,#result .result-narrative{background:inherit;border-color:#d8cdb9}
+#result .result-narrative{border:1px solid #d8cdb9;border-radius:9px;padding:16px}
+#result .result-section{border-top-color:#d8cdb9}
 #result .result-name{border-left-color:#00a7be}
-#result :is(.result-paragraph,.result-heading,.result-name,.result-person,.result-label,.result-meta,.result-kicker,.result-qualification){color:#0C1014}
+#result :is(.result-paragraph,.result-heading,.result-name,.result-party,.result-person,.result-label,.result-meta,.result-kicker,.result-qualification){color:#000}
 </style></head><body>
 <a href="../../" style="display:block;padding:12px 24px;color:#9beaff;background:#10162c;text-decoration:none">← Voltar à Central de Ferramentas</a><header class="top"><div class="brand"><div class="logo"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8 13h8M8 17h8"/></svg></div><div class="brand-rule"></div><div><h1>ORGANIZADOR DE TEXTO OFFLINE<br><span>para BOs em CAIXA ALTA</span></h1><p>Formatação de textos com capitalização normal e parágrafos organizados.</p></div></div><div class="offline"><strong>◉ 100% OFFLINE</strong><small>Processamento local e privado</small></div></header>
 <div class="shell"><nav class="side" aria-label="Navegação"><button class="nav-btn active" data-view="principal">⌂ &nbsp; Principal</button><button class="nav-btn" data-view="instrucoes">▤ &nbsp; Instruções</button><button class="nav-btn" data-view="sobre">ⓘ &nbsp; Sobre</button><section class="speech-controls" aria-label="Leitura da narrativa">
@@ -365,12 +362,12 @@ function paragraphize(text){
  return out.length?out:[''];
 }
 
-function clearBoPageHeaders(input){
+function clearBoPageHeaders(input,{preserveSections=false}={}){
  const lines=(input||'').replace(/\r\n?/g,'\n').replace(/\n[ \t]*\n(?=(?:ESTADO DE MATO GROSSO|SECRETARIA DE ESTADO|POL[IÍ]CIA MILITAR)\b)/giu,'\n').split('\n');
  const institution=/^(?:ESTADO DE MATO GROSSO|GOVERNO (?:DO ESTADO )?DE MATO GROSSO|SECRETARIA (?:DE ESTADO )?DE SEGURANCA PUBLICA(?:\s*[-–/]\s*(?:MT|SESP))?|POLICIA (?:JUDICIARIA CIVIL|CIVIL|MILITAR)(?:\s+(?:DO ESTADO )?DE MATO GROSSO)?(?:\s*[-–/]\s*(?:MT|PJC))?)\s*$/;
  const number=/^BOLETIM DE OCORRENCIA(?:\s*[-–]?\s*(?:N[°ºO.]?\s*[:.]?\s*)?\d{4}[.\/-]\d+)?\s*$/;
- const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DIGITAL|DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
- let inHeader=false, awaitingUnitAddress=false;
+ const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DIGITAL|DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DEL\.\s*POL\.\s+(?:DE|DA|DO)\s+[A-Z0-9 ./'’ºª–-]+|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
+ let inHeader=false, awaitingUnitAddress=false, keptNumber=false;
  return lines.filter(line=>{
   const text=norm(line.trim());
   if(!text)return true;
@@ -382,8 +379,13 @@ function clearBoPageHeaders(input){
   }
   if(inHeader&&/^(?:PM\s*[-–]\s*\d+[ªº]?\s+(?:CIPM|BPM)\b|ELABORADO POR\b|EDITADO POR\b|IMPRESSO EM\b|DATA\/HORA DA COMUNICACAO\s*:|UNIDADE DE APURACAO\s*:)/.test(text))return false;
   if(inHeader&&unit.test(text))return false;
-  if(number.test(text))return false;
-  if(/^(?:NARRATIVA|HISTORICO(?: DA OCORRENCIA)?|RELATO DOS FATOS|PROVIDENCIAS)\s*:?\s*$/.test(text)){inHeader=false;return false;}
+  if(number.test(text)){
+   inHeader=true;
+   if(!preserveSections||keptNumber)return false;
+   keptNumber=true;
+   return true;
+  }
+  if(/^(?:NARRATIVA|HISTORICO(?: DA OCORRENCIA)?|RELATO DOS FATOS|PROVIDENCIAS)\s*:?\s*$/.test(text)){inHeader=false;return preserveSections;}
   inHeader=false;
   return true;
  }).join('\n').trim();
@@ -781,7 +783,8 @@ async function pdfText(file){
  }
  let text=result.join('\n\n').replace(/\x00/g,'').trim();
  if(!text||text.replace(/\s/g,'').length<6)throw Error('Não foi encontrado texto selecionável. O PDF pode ser digitalizado (imagem), protegido ou usar uma codificação não suportada.');
- return clearBoAdministrative(clearRepeatedPdfMarks(text).text).text;
+ const clean=clearBoAdministrative(clearRepeatedPdfMarks(text).text).text;
+ return clearBoPageHeaders(clean,{preserveSections:true});
 }
 
 let loadedFile=null,parties={};
