@@ -363,22 +363,29 @@ function paragraphize(text){
 }
 
 function clearBoPageHeaders(input,{preserveSections=false}={}){
- const lines=(input||'').replace(/\r\n?/g,'\n').replace(/\n[ \t]*\n(?=(?:ESTADO DE MATO GROSSO|SECRETARIA DE ESTADO|POL[IÍ]CIA MILITAR)\b)/giu,'\n').split('\n');
- const institution=/^(?:ESTADO DE MATO GROSSO|GOVERNO (?:DO ESTADO )?DE MATO GROSSO|SECRETARIA (?:DE ESTADO )?DE SEGURANCA PUBLICA(?:\s*[-–/]\s*(?:MT|SESP))?|POLICIA (?:JUDICIARIA CIVIL|CIVIL|MILITAR)(?:\s+(?:DO ESTADO )?DE MATO GROSSO)?(?:\s*[-–/]\s*(?:MT|PJC))?)\s*$/;
+ const lines=(input||'').replace(/\r\n?/g,'\n').split('\n');
+ const institution=/^(?:(?:GOVERNO\s+DO\s+)?ESTADO\s+(?:DE|DO|DA|DOS|DAS)\s+.+|GOVERNO\s+(?:DE|DO|DA|DOS|DAS)\s+.+|SECRETARIA\s+(?:DE ESTADO\s+)?D[EA]\s+SEGURANCA PUBLICA\b.*|POLICIA\s+(?:JUDICIARIA CIVIL|CIVIL|MILITAR)(?:\s+(?:(?:DE|DO|DA|DOS|DAS)\s+.+)|\s*[-–/]\s*[\w-]+)?|DISTRITO FEDERAL)$/u;
  const number=/^BOLETIM DE OCORRENCIA(?:\s*[-–]?\s*(?:N[°ºO.]?\s*[:.]?\s*)?\d{4}[.\/-]\d+)?\s*$/;
- const unit=/^(?:(?:\d+[ªº]?\s+)?DELEGACIA\s+(?:DIGITAL|DE|DA|DO|REGIONAL|ESPECIALIZADA|MUNICIPAL)\b[A-Z0-9\s/().ºª°–-]*|DEL\.\s*POL\.\s+(?:DE|DA|DO)\s+[A-Z0-9 ./'’ºª–-]+|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/;
+ const unit=/^(?:(?:\d+\s*[ªº.]?\s*)?(?:DELEGACIA|DEL\.?\s*POL\.?|D\.?\s*P\.?)(?:\s+[\p{L}\d][\p{L}\d\s./()'’ºª&–-]*)?|DIRETORIA (?:GERAL|METROPOLITANA|DO INTERIOR))$/u;
  let inHeader=false, awaitingUnitAddress=false, keptNumber=false;
- return lines.filter(line=>{
+ return lines.filter((line,index)=>{
   const text=norm(line.trim());
-  if(!text)return true;
-  if(institution.test(text)){inHeader=true;awaitingUnitAddress=false;return false;}
+  if(!text)return !inHeader&&!institution.test(norm(lines[index+1]?.trim()));
+  const next=norm(lines.slice(index+1,index+4).find(line=>line.trim())?.trim());
+  // A identificação da unidade só é descartada junto ao cabeçalho.
+  const institutionalLine=institution.test(text);
+  if((institutionalLine||unit.test(text))&&
+     (inHeader||number.test(next)||institution.test(next)||(institutionalLine&&unit.test(next)))){
+   inHeader=true;
+   awaitingUnitAddress=false;
+   return false;
+  }
   if(inHeader&&/^UNIDADE DE APURACAO\s*:\s*$/.test(text)){awaitingUnitAddress=true;return false;}
   if(inHeader&&awaitingUnitAddress){
    awaitingUnitAddress=false;
    if(/^(?:AVENIDA|AV\.?|RUA|RODOVIA|TRAVESSA|ALAMEDA|PRACA)\s+.+\bBAIRRO\s*:/.test(text))return false;
   }
   if(inHeader&&/^(?:PM\s*[-–]\s*\d+[ªº]?\s+(?:CIPM|BPM)\b|ELABORADO POR\b|EDITADO POR\b|IMPRESSO EM\b|DATA\/HORA DA COMUNICACAO\s*:|UNIDADE DE APURACAO\s*:)/.test(text))return false;
-  if(inHeader&&unit.test(text))return false;
   if(number.test(text)){
    inHeader=true;
    if(!preserveSections||keptNumber)return false;
